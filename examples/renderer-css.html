@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS 3D Renderer - Premium FlipBook Demo</title>
+  <link rel="stylesheet" href="../dist/premium-flipbook.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #fff;
+    }
+    .demo-header {
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(37,99,235,0.2) 0%, transparent 100%);
+    }
+    .demo-header h1 { font-size: 24px; margin-bottom: 8px; }
+    .demo-header p { color: rgba(255,255,255,0.7); font-size: 14px; }
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+    #flipbook-container {
+      width: 100%;
+      height: 60vh;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .code-section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .code-section h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #a5b4fc;
+    }
+    .code-block {
+      background: #1e1e2e;
+      border-radius: 12px;
+      padding: 20px;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .code-block .comment { color: #6b7280; }
+    .code-block .keyword { color: #c792ea; }
+    .code-block .string { color: #c3e88d; }
+    .code-block .property { color: #82aaff; }
+    .code-block .number { color: #f78c6c; }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .feature {
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .feature h4 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #f59e0b;
+    }
+    .feature p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+    }
+    .info-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(245, 158, 11, 0.2);
+      color: #f59e0b;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-top: 12px;
+    }
+      /* Site Header */
+    .site-header { background: #0a0a12; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .site-header .logo { color: #fff; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .site-header .logo span { color: #3b82f6; }
+    .site-header nav { display: flex; gap: 20px; align-items: center; }
+    .site-header nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; }
+    .site-header nav a:hover { color: #fff; }
+    .site-footer { background: #0a0a12; border-top: 1px solid rgba(255,255,255,0.1); padding: 20px; text-align: center; margin-top: 40px; }
+    .site-footer p { color: rgba(255,255,255,0.5); font-size: 13px; }
+    .site-footer a { color: #3b82f6; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <a href="./index.html" class="back-link">← Back to Demos</a>
+
+  <div class="demo-header">
+    <h1>CSS 3D Renderer</h1>
+    <p>CSS transform-based rendering with broad browser support</p>
+  </div>
+
+  <div id="flipbook-container"></div>
+
+  <div class="code-section">
+    <h2>Code Example</h2>
+    <pre class="code-block"><span class="keyword">import</span> PremiumFlipBook <span class="keyword">from</span> <span class="string">'premium-flipbook-pdf-viewer'</span>;
+
+<span class="keyword">const</span> flipbook = <span class="keyword">new</span> PremiumFlipBook({
+  <span class="property">container</span>: <span class="string">'#flipbook-container'</span>,
+  <span class="property">pdfUrl</span>: <span class="string">'./document.pdf'</span>,
+
+  <span class="comment">// Force CSS renderer</span>
+  <span class="property">renderMode</span>: <span class="string">'css'</span>,
+
+  <span class="comment">// CSS-specific options</span>
+  <span class="property">css</span>: {
+    <span class="property">perspective</span>: <span class="number">2000</span>,         <span class="comment">// 3D perspective depth</span>
+    <span class="property">flipDuration</span>: <span class="number">600</span>,        <span class="comment">// Animation duration (ms)</span>
+    <span class="property">easing</span>: <span class="string">'ease-in-out'</span>,    <span class="comment">// CSS easing function</span>
+    <span class="property">shadow</span>: <span class="keyword">true</span>,             <span class="comment">// Page shadows</span>
+    <span class="property">gradientOverlay</span>: <span class="keyword">true</span>     <span class="comment">// 3D gradient effect</span>
+  },
+
+  <span class="property">onReady</span>: (fb) => {
+    console.log(<span class="string">'Renderer:'</span>, fb.getRendererType()); <span class="comment">// 'css'</span>
+  }
+});
+
+<span class="comment">// Check CSS 3D support</span>
+<span class="keyword">if</span> (PremiumFlipBook.isCSS3DSupported()) {
+  <span class="comment">// Safe to use CSS 3D transforms</span>
+}</pre>
+
+    <div class="features">
+      <div class="feature">
+        <h4>No WebGL Required</h4>
+        <p>Works on devices without WebGL support. Great fallback option.</p>
+      </div>
+      <div class="feature">
+        <h4>Broad Compatibility</h4>
+        <p>CSS 3D transforms work in all modern browsers including older versions.</p>
+      </div>
+      <div class="feature">
+        <h4>Lightweight</h4>
+        <p>No Three.js dependency needed. Smaller bundle size.</p>
+      </div>
+      <div class="feature">
+        <h4>Smooth Animations</h4>
+        <p>Hardware-accelerated CSS transitions for smooth page flips.</p>
+      </div>
+    </div>
+
+    <span class="info-badge">No external dependencies required</span>
+  </div>
+
+    }
+  </script>
+  <script src="../dist/premium-flipbook.min.js"></script>
+  <script>
+
+    const flipbook = new PremiumFlipBook({
+      container: '#flipbook-container',
+      images: [
+        './assets/pages/page1.svg',
+        './assets/pages/page2.svg',
+        './assets/pages/page3.svg',
+        './assets/pages/page4.svg',
+        './assets/pages/page5.svg',
+        './assets/pages/page6.svg',
+        './assets/pages/page7.svg',
+        './assets/pages/page8.svg'
+      ],
+      renderMode: 'css',
+      css: {
+        perspective: 2000,
+        flipDuration: 600,
+        easing: 'ease-in-out',
+        shadow: true,
+        gradientOverlay: true
+      },
+      ui: {
+        toolbar: { enabled: true },
+        thumbnails: { enabled: true }
+      },
+      onReady: (fb) => {
+        console.log('CSS FlipBook ready!');
+        console.log('Renderer:', fb.getRendererType());
+      }
+    });
+
+    window.flipbook = flipbook;
+  </script>
+</body>
+</html>

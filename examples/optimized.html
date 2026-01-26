@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium FlipBook - Optimized Demo</title>
+  <link rel="stylesheet" href="../dist/premium-flipbook.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    .header {
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(245,158,11,0.2) 0%, transparent 100%);
+    }
+
+    .header h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+    }
+
+    .badges {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #f59e0b;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+
+    .badge--secondary {
+      background: rgba(245,158,11,0.3);
+    }
+
+    #flipbook-container {
+      width: 100%;
+      height: calc(100vh - 160px);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .info-text {
+      padding: 20px;
+      text-align: center;
+      color: rgba(255,255,255,0.5);
+      font-size: 12px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+      /* Site Header */
+    .site-header { background: #0a0a12; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .site-header .logo { color: #fff; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .site-header .logo span { color: #3b82f6; }
+    .site-header nav { display: flex; gap: 20px; align-items: center; }
+    .site-header nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; }
+    .site-header nav a:hover { color: #fff; }
+    .site-footer { background: #0a0a12; border-top: 1px solid rgba(255,255,255,0.1); padding: 20px; text-align: center; margin-top: 40px; }
+    .site-footer p { color: rgba(255,255,255,0.5); font-size: 13px; }
+    .site-footer a { color: #3b82f6; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Optimized Source Demo</h1>
+    <p>Pre-rendered images with JSON metadata - Maximum performance!</p>
+    <div class="badges">
+      <span class="badge">Fastest Load</span>
+      <span class="badge badge--secondary">Searchable</span>
+      <span class="badge badge--secondary">TOC Support</span>
+    </div>
+  </div>
+
+  <div id="flipbook-container"></div>
+
+  <p class="info-text">
+    This demo uses pre-rendered images with a JSON configuration file.
+    Includes text content for search, table of contents, and optimized thumbnails.
+    No PDF.js required - perfect for production!
+  </p>
+
+  <!-- Premium FlipBook -->
+  <script src="../dist/premium-flipbook.min.js"></script>
+  <script>
+
+    // Optimized source configuration (inline for demo)
+    // In production, this would be loaded from a JSON file
+    const optimizedConfig = {
+      title: "Sample Magazine",
+      author: "Premium FlipBook",
+      pageWidth: 800,
+      pageHeight: 1131,
+
+      // Pages with images, thumbnails, and text
+      pages: [
+        {
+          src: 'https://picsum.photos/800/1131?random=10',
+          thumb: 'https://picsum.photos/200/283?random=10',
+          title: 'Cover',
+          text: 'Welcome to our sample magazine. This is the cover page with beautiful imagery.'
+        },
+        {
+          src: 'https://picsum.photos/800/1131?random=11',
+          thumb: 'https://picsum.photos/200/283?random=11',
+          title: 'Introduction',
+          text: 'Chapter 1: Introduction. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        },
+        {
+          src: 'https://picsum.photos/800/1131?random=12',
+          thumb: 'https://picsum.photos/200/283?random=12',
+          text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+        },
+        {
+          src: 'https://picsum.photos/800/1131?random=13',
+          thumb: 'https://picsum.photos/200/283?random=13',
+          title: 'Features',
+          text: 'Chapter 2: Features. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+        },
+        {
+          src: 'https://picsum.photos/800/1131?random=14',
+          thumb: 'https://picsum.photos/200/283?random=14',
+          text: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+        },
+        {
+          src: 'https://picsum.photos/800/1131?random=15',
+          thumb: 'https://picsum.photos/200/283?random=15',
+          title: 'Gallery',
+          text: 'Chapter 3: Photo Gallery. A collection of stunning photographs from around the world.'
+        },
+        {
+          src: 'https://picsum.photos/800/1131?random=16',
+          thumb: 'https://picsum.photos/200/283?random=16',
+          text: 'More amazing photos. Nature photography at its finest.'
+        },
+        {
+          src: 'https://picsum.photos/800/1131?random=17',
+          thumb: 'https://picsum.photos/200/283?random=17',
+          title: 'Conclusion',
+          text: 'Thank you for viewing our sample magazine. We hope you enjoyed this demonstration of Premium FlipBook.'
+        }
+      ],
+
+      // Table of contents
+      toc: [
+        { title: 'Cover', page: 1 },
+        { title: 'Introduction', page: 2 },
+        { title: 'Features', page: 4 },
+        { title: 'Gallery', page: 6 },
+        { title: 'Conclusion', page: 8 }
+      ]
+    };
+
+    // Initialize flipbook with optimized source
+    const flipbook = new PremiumFlipBook({
+      container: '#flipbook-container',
+
+      // Optimized source - can also use jsonUrl for external file
+      optimizedImages: optimizedConfig,
+
+      // Renderer
+      renderMode: 'css',
+
+      // UI with all features
+      ui: {
+        toolbar: {
+          enabled: true
+        },
+        thumbnails: {
+          enabled: true
+        },
+        toc: {
+          enabled: true  // Works with optimized source!
+        },
+        search: {
+          enabled: true  // Text search from JSON!
+        }
+      },
+
+      // Features
+      features: {
+        deepLinking: true,
+        fullscreen: true
+      },
+
+      // Callbacks
+      onReady: (fb) => {
+        console.log('Optimized FlipBook ready!');
+        console.log('Pages:', fb.getPageCount());
+        console.log('TOC:', fb.getTableOfContents());
+      }
+    });
+
+    // Export for console access
+    window.flipbook = flipbook;
+  </script>
+</body>
+</html>

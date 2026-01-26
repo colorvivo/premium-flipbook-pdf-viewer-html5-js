@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Transitions - Premium FlipBook Demo</title>
+  <link rel="stylesheet" href="../dist/premium-flipbook.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #fff;
+    }
+    .demo-header {
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(37,99,235,0.2) 0%, transparent 100%);
+    }
+    .demo-header h1 { font-size: 24px; margin-bottom: 8px; }
+    .demo-header p { color: rgba(255,255,255,0.7); font-size: 14px; }
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+    #flipbook-container {
+      width: 100%;
+      height: 55vh;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 12px 24px;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .btn:hover { background: #1d4ed8; }
+    .btn.active { background: #16a34a; }
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn-group label {
+      color: rgba(255,255,255,0.6);
+      font-size: 12px;
+      margin-right: 8px;
+    }
+    .code-section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .code-section h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #a5b4fc;
+    }
+    .code-block {
+      background: #1e1e2e;
+      border-radius: 12px;
+      padding: 20px;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .code-block .comment { color: #6b7280; }
+    .code-block .keyword { color: #c792ea; }
+    .code-block .string { color: #c3e88d; }
+    .code-block .property { color: #82aaff; }
+    .transitions-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .transition-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .transition-card h4 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #a5b4fc;
+    }
+    .transition-card p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+    }
+    .demo-footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
+      font-size: 14px;
+    }
+    .demo-footer a {
+      color: #93c5fd;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+    .demo-footer a:hover { text-decoration: underline; }
+      /* Site Header */
+    .site-header { background: #0a0a12; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .site-header .logo { color: #fff; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .site-header .logo span { color: #3b82f6; }
+    .site-header nav { display: flex; gap: 20px; align-items: center; }
+    .site-header nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; }
+    .site-header nav a:hover { color: #fff; }
+    .site-footer { background: #0a0a12; border-top: 1px solid rgba(255,255,255,0.1); padding: 20px; text-align: center; margin-top: 40px; }
+    .site-footer p { color: rgba(255,255,255,0.5); font-size: 13px; }
+    .site-footer a { color: #3b82f6; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <a href="./index.html" class="back-link">← Back to Demos</a>
+
+  <div class="demo-header">
+    <h1>Page Transitions</h1>
+    <p>Compare different page transition effects</p>
+  </div>
+
+  <div id="flipbook-container"></div>
+
+  <div class="controls">
+    <div class="btn-group">
+      <label>Transition:</label>
+      <button class="btn active" id="btn-fade">Fade</button>
+      <button class="btn" id="btn-slide">Slide</button>
+      <button class="btn" id="btn-flip">Flip</button>
+      <button class="btn" id="btn-none">None</button>
+    </div>
+
+    <div class="btn-group">
+      <label>Navigate:</label>
+      <button class="btn" id="btn-prev">← Prev</button>
+      <button class="btn" id="btn-next">Next →</button>
+    </div>
+  </div>
+
+  <div class="code-section">
+    <h2>Code Example</h2>
+    <pre class="code-block"><span class="comment">// Set transition type dynamically</span>
+flipbook.setTransition(<span class="string">'fade'</span>);   <span class="comment">// Smooth fade between pages</span>
+flipbook.setTransition(<span class="string">'slide'</span>);  <span class="comment">// Slide with 3D perspective</span>
+flipbook.setTransition(<span class="string">'flip'</span>);   <span class="comment">// 3D page flip rotation</span>
+flipbook.setTransition(<span class="string">'none'</span>);   <span class="comment">// Instant page change</span>
+
+<span class="comment">// Get current transition type</span>
+<span class="keyword">const</span> current = flipbook.getTransition();
+
+<span class="comment">// Transition works with all renderers</span>
+<span class="comment">// (WebGL, CSS, and Swipe)</span></pre>
+
+    <div class="transitions-info">
+      <div class="transition-card">
+        <h4>Fade</h4>
+        <p>Smooth opacity transition. Works well for all content types.</p>
+      </div>
+      <div class="transition-card">
+        <h4>Slide</h4>
+        <p>3D slide with perspective and scaling. Creates depth effect.</p>
+      </div>
+      <div class="transition-card">
+        <h4>Flip</h4>
+        <p>Classic 3D page flip rotation. Book-like experience.</p>
+      </div>
+      <div class="transition-card">
+        <h4>None</h4>
+        <p>Instant page change. Best for quick navigation.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="demo-footer">
+    <a href="./docs-api.html">API Reference</a> ·
+    <a href="./docs-options.html">Options</a> ·
+    <a href="./docs-events.html">Events</a> ·
+    <a href="./docs-troubleshooting.html">Troubleshooting</a>
+  </footer>
+
+    }
+  </script>
+  <script src="../dist/premium-flipbook.min.js"></script>
+  <script>
+
+    const flipbook = new PremiumFlipBook({
+      container: '#flipbook-container',
+      images: [
+        './assets/pages/page1.svg',
+        './assets/pages/page2.svg',
+        './assets/pages/page3.svg',
+        './assets/pages/page4.svg',
+        './assets/pages/page5.svg',
+        './assets/pages/page6.svg',
+        './assets/pages/page7.svg',
+        './assets/pages/page8.svg'
+      ],
+      renderMode: 'css',
+      ui: {
+        toolbar: { enabled: true },
+        thumbnails: { enabled: false }
+      },
+      onReady: (fb) => {
+        console.log('FlipBook ready!');
+
+        // Get buttons
+        const buttons = {
+          fade: document.getElementById('btn-fade'),
+          slide: document.getElementById('btn-slide'),
+          flip: document.getElementById('btn-flip'),
+          none: document.getElementById('btn-none'),
+          prev: document.getElementById('btn-prev'),
+          next: document.getElementById('btn-next')
+        };
+
+        // Transition buttons
+        const transitionBtns = [buttons.fade, buttons.slide, buttons.flip, buttons.none];
+
+        const setTransition = (type, btn) => {
+          transitionBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          fb.setTransition(type);
+          console.log('Transition set to:', type);
+        };
+
+        buttons.fade.addEventListener('click', () => setTransition('fade', buttons.fade));
+        buttons.slide.addEventListener('click', () => setTransition('slide', buttons.slide));
+        buttons.flip.addEventListener('click', () => setTransition('flip', buttons.flip));
+        buttons.none.addEventListener('click', () => setTransition('none', buttons.none));
+
+        // Navigation
+        buttons.prev.addEventListener('click', () => fb.prevPage());
+        buttons.next.addEventListener('click', () => fb.nextPage());
+      }
+    });
+
+    window.flipbook = flipbook;
+  </script>
+</body>
+</html>

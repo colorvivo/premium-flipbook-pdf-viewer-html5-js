@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Control - Premium FlipBook Demo</title>
+  <link rel="stylesheet" href="../dist/premium-flipbook.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #fff;
+    }
+    .demo-header {
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(37,99,235,0.2) 0%, transparent 100%);
+    }
+    .demo-header h1 { font-size: 24px; margin-bottom: 8px; }
+    .demo-header p { color: rgba(255,255,255,0.7); font-size: 14px; }
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+    .main-layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    #flipbook-container {
+      width: 100%;
+      height: 60vh;
+    }
+    .control-panel {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .control-section {
+      margin-bottom: 24px;
+    }
+    .control-section h3 {
+      font-size: 14px;
+      color: #a5b4fc;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .btn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .btn {
+      padding: 10px 12px;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+    .btn:hover { background: #1d4ed8; }
+    .btn.full { grid-column: 1 / -1; }
+    .state-display {
+      background: #1e1e2e;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+    .state-row {
+      display: flex;
+      justify-content: space-between;
+    }
+    .state-label { color: #6b7280; }
+    .state-value { color: #10b981; }
+    .code-section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .code-section h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #a5b4fc;
+    }
+    .code-block {
+      background: #1e1e2e;
+      border-radius: 12px;
+      padding: 20px;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .code-block .comment { color: #6b7280; }
+    .code-block .keyword { color: #c792ea; }
+    .code-block .string { color: #c3e88d; }
+    .code-block .property { color: #82aaff; }
+    .code-block .number { color: #f78c6c; }
+    @media (max-width: 900px) {
+      .main-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+      /* Site Header */
+    .site-header { background: #0a0a12; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .site-header .logo { color: #fff; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .site-header .logo span { color: #3b82f6; }
+    .site-header nav { display: flex; gap: 20px; align-items: center; }
+    .site-header nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; }
+    .site-header nav a:hover { color: #fff; }
+    .site-footer { background: #0a0a12; border-top: 1px solid rgba(255,255,255,0.1); padding: 20px; text-align: center; margin-top: 40px; }
+    .site-footer p { color: rgba(255,255,255,0.5); font-size: 13px; }
+    .site-footer a { color: #3b82f6; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <a href="./index.html" class="back-link">← Back to Demos</a>
+
+  <div class="demo-header">
+    <h1>API Control</h1>
+    <p>Control the flipbook programmatically via JavaScript</p>
+  </div>
+
+  <div class="main-layout">
+    <div id="flipbook-container"></div>
+
+    <div class="control-panel">
+      <div class="control-section">
+        <h3>Navigation</h3>
+        <div class="btn-grid">
+          <button class="btn" onclick="flipbook.firstPage()">First</button>
+          <button class="btn" onclick="flipbook.lastPage()">Last</button>
+          <button class="btn" onclick="flipbook.prevPage()">← Prev</button>
+          <button class="btn" onclick="flipbook.nextPage()">Next →</button>
+          <button class="btn full" onclick="flipbook.goToPage(3)">Go to Page 3</button>
+        </div>
+      </div>
+
+      <div class="control-section">
+        <h3>Zoom</h3>
+        <div class="btn-grid">
+          <button class="btn" onclick="flipbook.zoomOut()">Zoom Out</button>
+          <button class="btn" onclick="flipbook.zoomIn()">Zoom In</button>
+          <button class="btn" onclick="flipbook.setZoom(2)">200%</button>
+          <button class="btn" onclick="flipbook.resetZoom()">Reset</button>
+        </div>
+      </div>
+
+      <div class="control-section">
+        <h3>Display Mode</h3>
+        <div class="btn-grid">
+          <button class="btn" onclick="flipbook.setDisplayMode('single')">Single</button>
+          <button class="btn" onclick="flipbook.setDisplayMode('double')">Double</button>
+        </div>
+      </div>
+
+      <div class="control-section">
+        <h3>Transition</h3>
+        <div class="btn-grid">
+          <button class="btn" onclick="flipbook.setTransition('fade')">Fade</button>
+          <button class="btn" onclick="flipbook.setTransition('slide')">Slide</button>
+          <button class="btn" onclick="flipbook.setTransition('flip')">Flip</button>
+          <button class="btn" onclick="flipbook.setTransition('none')">None</button>
+        </div>
+      </div>
+
+      <div class="control-section">
+        <h3>UI Panels</h3>
+        <div class="btn-grid">
+          <button class="btn full" onclick="flipbook.toggleThumbnails()">Toggle Thumbnails</button>
+          <button class="btn full" onclick="flipbook.toggleFullscreen()">Toggle Fullscreen</button>
+        </div>
+      </div>
+
+      <div class="control-section">
+        <h3>Current State</h3>
+        <div class="state-display" id="state-display">
+          <div class="state-row"><span class="state-label">Page:</span> <span class="state-value" id="state-page">-</span></div>
+          <div class="state-row"><span class="state-label">Total:</span> <span class="state-value" id="state-total">-</span></div>
+          <div class="state-row"><span class="state-label">Zoom:</span> <span class="state-value" id="state-zoom">-</span></div>
+          <div class="state-row"><span class="state-label">Mode:</span> <span class="state-value" id="state-mode">-</span></div>
+          <div class="state-row"><span class="state-label">Renderer:</span> <span class="state-value" id="state-renderer">-</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="code-section">
+    <h2>Code Example</h2>
+    <pre class="code-block"><span class="comment">// Navigation API</span>
+<span class="keyword">await</span> flipbook.goToPage(<span class="number">5</span>);      <span class="comment">// Go to specific page</span>
+<span class="keyword">await</span> flipbook.nextPage();       <span class="comment">// Next page</span>
+<span class="keyword">await</span> flipbook.prevPage();       <span class="comment">// Previous page</span>
+<span class="keyword">await</span> flipbook.firstPage();      <span class="comment">// First page</span>
+<span class="keyword">await</span> flipbook.lastPage();       <span class="comment">// Last page</span>
+
+<span class="comment">// Zoom API</span>
+flipbook.setZoom(<span class="number">2</span>);             <span class="comment">// Set zoom to 200%</span>
+flipbook.zoomIn();               <span class="comment">// Zoom in by step</span>
+flipbook.zoomOut();              <span class="comment">// Zoom out by step</span>
+flipbook.resetZoom();            <span class="comment">// Reset to 100%</span>
+
+<span class="comment">// Display & Transition</span>
+flipbook.setDisplayMode(<span class="string">'single'</span>);  <span class="comment">// Single page view</span>
+flipbook.setDisplayMode(<span class="string">'double'</span>);  <span class="comment">// Double page spread</span>
+flipbook.setTransition(<span class="string">'slide'</span>);    <span class="comment">// Set transition effect</span>
+
+<span class="comment">// State getters</span>
+<span class="keyword">const</span> page = flipbook.getCurrentPage();
+<span class="keyword">const</span> total = flipbook.getPageCount();
+<span class="keyword">const</span> zoom = flipbook.getZoom();
+<span class="keyword">const</span> mode = flipbook.getDisplayMode();
+<span class="keyword">const</span> renderer = flipbook.getRendererType();
+<span class="keyword">const</span> isFlipping = flipbook.isFlipping();
+
+<span class="comment">// UI toggles</span>
+flipbook.toggleThumbnails();
+flipbook.toggleFullscreen();</pre>
+  </div>
+
+    }
+  </script>
+  <script src="../dist/premium-flipbook.min.js"></script>
+  <script>
+
+    const flipbook = new PremiumFlipBook({
+      container: '#flipbook-container',
+      images: [
+        './assets/pages/page1.svg',
+        './assets/pages/page2.svg',
+        './assets/pages/page3.svg',
+        './assets/pages/page4.svg',
+        './assets/pages/page5.svg',
+        './assets/pages/page6.svg',
+        './assets/pages/page7.svg',
+        './assets/pages/page8.svg'
+      ],
+      renderMode: 'css',
+      ui: {
+        toolbar: { enabled: true },
+        thumbnails: { enabled: true }
+      },
+      onReady: (fb) => {
+        updateState();
+      },
+      onPageChange: () => updateState(),
+      onZoomChange: () => updateState()
+    });
+
+    function updateState() {
+      document.getElementById('state-page').textContent = flipbook.getCurrentPage();
+      document.getElementById('state-total').textContent = flipbook.getPageCount();
+      document.getElementById('state-zoom').textContent = (flipbook.getZoom() * 100).toFixed(0) + '%';
+      document.getElementById('state-mode').textContent = flipbook.getDisplayMode();
+      document.getElementById('state-renderer').textContent = flipbook.getRendererType();
+    }
+
+    window.flipbook = flipbook;
+  </script>
+</body>
+</html>

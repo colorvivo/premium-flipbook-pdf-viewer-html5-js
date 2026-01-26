@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Troubleshooting - Premium FlipBook Documentation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+    .doc-header {
+      padding: 30px 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(37,99,235,0.2) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .doc-header h1 { font-size: 32px; margin-bottom: 8px; color: #fff; }
+    .doc-header p { color: rgba(255,255,255,0.7); font-size: 16px; }
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+    .doc-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px;
+      flex-wrap: wrap;
+      background: rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .doc-nav a {
+      color: #93c5fd;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .doc-nav a:hover { background: rgba(255,255,255,0.1); }
+    .doc-nav a.active { background: #2563eb; color: #fff; }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    h2 {
+      font-size: 24px;
+      color: #a5b4fc;
+      margin: 40px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    h2:first-child { margin-top: 0; }
+    h3 {
+      font-size: 18px;
+      color: #c4b5fd;
+      margin: 30px 0 12px;
+    }
+    p { margin-bottom: 12px; color: #cbd5e1; }
+    ul, ol { margin: 12px 0 12px 24px; }
+    li { margin-bottom: 8px; color: #cbd5e1; }
+    strong { color: #e2e8f0; }
+    code {
+      background: rgba(255,255,255,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 13px;
+      color: #fbbf24;
+    }
+    pre {
+      background: #1e1e2e;
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      margin: 12px 0 24px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      color: #e2e8f0;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px;
+      font-size: 14px;
+    }
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    th {
+      background: rgba(255,255,255,0.05);
+      color: #a5b4fc;
+      font-weight: 600;
+    }
+    td { color: #cbd5e1; }
+    td code {
+      font-size: 12px;
+    }
+    .issue-box {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+    }
+    .issue-box strong { color: #fca5a5; }
+    .solution-box {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+    }
+    .solution-box strong { color: #86efac; }
+    .doc-footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 60px;
+    }
+    .doc-footer a { color: #93c5fd; text-decoration: none; }
+    .doc-footer a:hover { text-decoration: underline; }
+      /* Site Header */
+    .site-header { background: #0a0a12; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+    .site-header .logo { color: #fff; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .site-header .logo span { color: #3b82f6; }
+    .site-header nav { display: flex; gap: 20px; align-items: center; }
+    .site-header nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .site-header nav a:hover { color: #fff; }
+    .site-header nav a.cta { background: #2563eb; padding: 6px 12px; border-radius: 6px; color: #fff; }
+    /* Full Footer */
+    .full-footer { padding: 60px 0; border-top: 1px solid rgba(255,255,255,0.05); background: #0a0a12; }
+    .full-footer .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } }
+    .footer-brand h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; color: #fff; }
+    .footer-brand p { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
+    .footer-social { display: flex; gap: 12px; }
+    .footer-social a { width: 40px; height: 40px; background: #1e1e2e; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; color: #fff; text-decoration: none; }
+    .footer-social a:hover { background: #2563eb; }
+    .footer-links h4 { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .footer-links ul { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a { color: #94a3b8; font-size: 14px; transition: color 0.2s; text-decoration: none; }
+    .footer-links a:hover { color: #fff; }
+    .footer-bottom { margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: #94a3b8; font-size: 14px; }
+    .footer-bottom a { color: #3b82f6; text-decoration: none; }
+    .footer-bottom a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="../index.html" class="logo">Premium <span>FlipBook</span></a>
+    <nav>
+      <a href="../index.html#features">Features</a>
+      <a href="../index.html#renderers">Renderers</a>
+      <a href="./index.html">Demos</a>
+      <a href="./docs-api.html">API</a>
+      <a href="./docs-usage.html">Guide</a>
+      <a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank">GitHub</a>
+      <a href="../index.html#download" class="cta">Download</a>
+    </nav>
+  </header>
+
+  <div class="doc-header">
+    <h1>Troubleshooting</h1>
+    <p>Solutions to common issues with Premium FlipBook</p>
+  </div>
+
+  <nav class="doc-nav">
+    <a href="../index.html">Website</a>
+    <a href="../index.html#renderers">Renderers</a>
+      <a href="./index.html">Demos</a>
+    <a href="./docs-api.html">API Reference</a>
+    <a href="./docs-options.html">Options</a>
+    <a href="./docs-usage.html">Usage Guide</a>
+    <a href="./docs-events.html">Events</a>
+    <a href="./docs-troubleshooting.html" class="active">Troubleshooting</a>
+  </nav>
+
+  <div class="container">
+    <h2>Common Issues</h2>
+
+    <h3>PDF Not Loading</h3>
+    <div class="issue-box">
+      <strong>Symptoms:</strong> Blank flipbook or loading spinner that never completes.
+    </div>
+    <div class="solution-box">
+      <strong>Solutions:</strong>
+      <ol>
+        <li><strong>CORS Issues:</strong> Ensure the PDF is served from the same origin or the server sends proper CORS headers.</li>
+        <li><strong>PDF.js Not Loaded:</strong> Ensure PDF.js is available.</li>
+        <li><strong>Invalid PDF:</strong> Verify the PDF is valid and not corrupted.</li>
+      </ol>
+    </div>
+    <pre><code>&lt;!-- Add PDF.js before your script --&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/build/pdf.min.mjs" type="module"&gt;&lt;/script&gt;</code></pre>
+
+    <h3>WebGL Renderer Not Working</h3>
+    <div class="issue-box">
+      <strong>Symptoms:</strong> Black screen or falls back to CSS renderer.
+    </div>
+    <div class="solution-box">
+      <strong>Solutions:</strong>
+      <ol>
+        <li><strong>WebGL Not Supported:</strong> Check browser support.</li>
+        <li><strong>Three.js Not Loaded:</strong> Ensure Three.js is available.</li>
+        <li><strong>Context Lost:</strong> Handle WebGL context loss.</li>
+      </ol>
+    </div>
+    <pre><code>if (!PremiumFlipBook.isWebGLSupported()) {
+  console.log('WebGL not supported, using CSS renderer');
+}
+
+// Handle context loss
+flipbook.on('error', (error) => {
+  if (error.code === 'E303') {
+    // WebGL context lost
+    flipbook.switchRenderer('css');
+  }
+});</code></pre>
+    <pre><code>&lt;script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" type="module"&gt;&lt;/script&gt;</code></pre>
+
+    <h3>Images Not Loading</h3>
+    <div class="issue-box">
+      <strong>Symptoms:</strong> Blank pages or broken image icons.
+    </div>
+    <div class="solution-box">
+      <strong>Solutions:</strong>
+      <ol>
+        <li><strong>Incorrect Paths:</strong> Verify image URLs are correct.</li>
+        <li><strong>CORS Issues:</strong> Ensure images are accessible.</li>
+        <li><strong>Mixed Content:</strong> Don't mix HTTP images on HTTPS pages.</li>
+      </ol>
+    </div>
+    <pre><code>// Test images in browser first
+const img = new Image();
+img.onload = () => console.log('Image OK');
+img.onerror = () => console.log('Image failed');
+img.src = 'your-image-url.jpg';</code></pre>
+
+    <h3>Touch Not Working</h3>
+    <div class="issue-box">
+      <strong>Symptoms:</strong> Swipe gestures don't work on mobile.
+    </div>
+    <div class="solution-box">
+      <strong>Solutions:</strong>
+      <ol>
+        <li><strong>Passive Event Listeners:</strong> The library handles this, but ensure no other code is interfering.</li>
+        <li><strong>Container Size:</strong> Ensure container has proper dimensions.</li>
+        <li><strong>Z-Index Issues:</strong> Make sure nothing is blocking touch events.</li>
+      </ol>
+    </div>
+    <pre><code>#flipbook {
+  width: 100%;
+  height: 100vh;
+  touch-action: pan-x pan-y;
+}</code></pre>
+
+    <h3>Slow Performance</h3>
+    <div class="issue-box">
+      <strong>Symptoms:</strong> Laggy animations or high memory usage.
+    </div>
+    <div class="solution-box">
+      <strong>Solutions:</strong>
+      <ol>
+        <li><strong>Reduce Texture Size</strong></li>
+        <li><strong>Use Optimized Source:</strong> Pre-render PDF to images.</li>
+        <li><strong>Use CSS Renderer:</strong> Less GPU intensive.</li>
+        <li><strong>Reduce Preloading</strong></li>
+      </ol>
+    </div>
+    <pre><code>new PremiumFlipBook({
+  webgl: {
+    maxTextureSize: 1024  // Reduce from default 2048
+  },
+  performance: {
+    renderQuality: 0.8,
+    cacheSize: 10,  // Reduce cache
+    preloadPages: 1
+  },
+  renderMode: 'css'  // Less GPU intensive
+});</code></pre>
+    <pre><code># Pre-render PDF to images
+npx pfb-convert document.pdf --output ./optimized --quality 80</code></pre>
+
+    <h3>Memory Leaks</h3>
+    <div class="issue-box">
+      <strong>Symptoms:</strong> Memory usage grows over time.
+    </div>
+    <div class="solution-box">
+      <strong>Solutions:</strong>
+      <ol>
+        <li><strong>Destroy When Done:</strong> Always call destroy.</li>
+        <li><strong>Clear Unused Pages</strong></li>
+      </ol>
+    </div>
+    <pre><code>// When removing flipbook
+flipbook.destroy();
+flipbook = null;
+
+// Clear pages far from current
+flipbook.source.clearCache();</code></pre>
+
+    <h3>Keyboard Not Working</h3>
+    <div class="issue-box">
+      <strong>Symptoms:</strong> Arrow keys don't navigate.
+    </div>
+    <div class="solution-box">
+      <strong>Solutions:</strong>
+      <ol>
+        <li><strong>Focus Required:</strong> Click on flipbook or tab to it.</li>
+        <li><strong>Input Focus:</strong> Keyboard is disabled when inputs are focused.</li>
+      </ol>
+    </div>
+    <pre><code>// Focus programmatically
+flipbook.container.focus();</code></pre>
+
+    <h3>Search Not Finding Text</h3>
+    <div class="issue-box">
+      <strong>Symptoms:</strong> Search returns no results.
+    </div>
+    <div class="solution-box">
+      <strong>Solutions:</strong>
+      <ol>
+        <li><strong>Source Type:</strong> Search only works with PDF or optimized sources with text.</li>
+        <li><strong>PDF Text Layer:</strong> Some PDFs don't have extractable text (scanned images).</li>
+      </ol>
+    </div>
+    <pre><code>// Images don't support search
+// Use optimized source with text content
+optimizedImages: {
+  pages: [
+    { src: 'page1.jpg', text: 'Searchable text content' }
+  ]
+}</code></pre>
+
+    <h2>Error Codes</h2>
+    <table>
+      <thead>
+        <tr><th>Code</th><th>Description</th><th>Solution</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>E101</code></td><td>Init failed</td><td>Check console for details</td></tr>
+        <tr><td><code>E102</code></td><td>Container not found</td><td>Verify selector/element</td></tr>
+        <tr><td><code>E103</code></td><td>Invalid options</td><td>Check options format</td></tr>
+        <tr><td><code>E104</code></td><td>No source</td><td>Provide pdfUrl, images, or optimizedImages</td></tr>
+        <tr><td><code>E201</code></td><td>Source load failed</td><td>Check network/CORS</td></tr>
+        <tr><td><code>E202</code></td><td>PDF load failed</td><td>Verify PDF URL and format</td></tr>
+        <tr><td><code>E203</code></td><td>Image load failed</td><td>Check image URLs</td></tr>
+        <tr><td><code>E204</code></td><td>JSON load failed</td><td>Verify JSON URL and format</td></tr>
+        <tr><td><code>E205</code></td><td>PDF.js not found</td><td>Include pdfjs-dist</td></tr>
+        <tr><td><code>E206</code></td><td>CORS error</td><td>Configure server CORS</td></tr>
+        <tr><td><code>E207</code></td><td>Network error</td><td>Check connectivity</td></tr>
+        <tr><td><code>E301</code></td><td>Renderer init failed</td><td>Check WebGL/CSS support</td></tr>
+        <tr><td><code>E302</code></td><td>WebGL not supported</td><td>Use CSS or swipe renderer</td></tr>
+        <tr><td><code>E303</code></td><td>WebGL context lost</td><td>Renderer will auto-recover</td></tr>
+        <tr><td><code>E304</code></td><td>Three.js not found</td><td>Include three.js</td></tr>
+        <tr><td><code>E305</code></td><td>CSS 3D not supported</td><td>Use swipe renderer</td></tr>
+        <tr><td><code>E401</code></td><td>Page not found</td><td>Check page number</td></tr>
+        <tr><td><code>E402</code></td><td>Page render failed</td><td>Check source/memory</td></tr>
+        <tr><td><code>E501</code></td><td>Fullscreen not supported</td><td>Browser limitation</td></tr>
+        <tr><td><code>E502</code></td><td>Search not available</td><td>Source doesn't support search</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Browser-Specific Issues</h2>
+
+    <h3>Safari</h3>
+    <ul>
+      <li><strong>Issue:</strong> WebGL may have lower performance</li>
+      <li><strong>Solution:</strong> Consider using CSS renderer on Safari</li>
+    </ul>
+
+    <h3>Firefox</h3>
+    <ul>
+      <li><strong>Issue:</strong> PDF worker may not load</li>
+      <li><strong>Solution:</strong> Ensure worker URL is correct</li>
+    </ul>
+
+    <h3>Mobile Browsers</h3>
+    <ul>
+      <li><strong>Issue:</strong> Memory constraints</li>
+      <li><strong>Solution:</strong> Use lower texture sizes and cache limits</li>
+    </ul>
+
+    <h2>Still Having Issues?</h2>
+    <ol>
+      <li>Check browser console for errors</li>
+      <li>Verify all resources load correctly (Network tab)</li>
+      <li>Test with minimal configuration</li>
+      <li>Try different renderer modes</li>
+      <li>Report issues at: <a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer/issues" style="color: #93c5fd;">GitHub Issues</a></li>
+    </ol>
+  </div>
+
+  <div class="doc-footer">
+    <p><a href="./docs-events.html">&larr; Previous: Events Reference</a> | <a href="./index.html">Back to Demos</a></p>
+  </div>
+  <!-- Full Footer -->
+  <footer class="full-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Premium FlipBook</h3>
+          <p>Professional PDF & Image viewer with realistic 3D page flip animations. Pure JavaScript, no dependencies.</p>
+          <div class="footer-social">
+            <a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank" title="GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../index.html#features">Features</a></li>
+            <li><a href="../index.html#renderers">Renderers</a></li>
+            <li><a href="../index.html#demo">Demo</a></li>
+            <li><a href="../index.html#download">Download</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="./docs-usage.html">Getting Started</a></li>
+            <li><a href="./docs-api.html">API Reference</a></li>
+            <li><a href="./docs-options.html">Options</a></li>
+            <li><a href="./docs-events.html">Events</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="./index.html">Demo Gallery</a></li>
+            <li><a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank">GitHub</a></li>
+            <li><a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer/issues" target="_blank">Report Issue</a></li>
+            <li><a href="./docs-troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Premium FlipBook by <a href="https://colorvivo.com/" target="_blank">Color Vivo Internet</a>. Released under MIT License.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

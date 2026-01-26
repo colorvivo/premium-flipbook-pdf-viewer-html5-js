@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e293b"/>
+      <stop offset="100%" style="stop-color:#0f172a"/>
+    </linearGradient>
+    <linearGradient id="pageGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#f1f5f9"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2563eb"/>
+      <stop offset="100%" style="stop-color:#7c3aed"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="20" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="675" fill="url(#bgGrad)"/>
+
+  <!-- Decorative grid -->
+  <g opacity="0.1" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="100" x2="1200" y2="100"/>
+    <line x1="0" y1="200" x2="1200" y2="200"/>
+    <line x1="0" y1="300" x2="1200" y2="300"/>
+    <line x1="0" y1="400" x2="1200" y2="400"/>
+    <line x1="0" y1="500" x2="1200" y2="500"/>
+    <line x1="0" y1="600" x2="1200" y2="600"/>
+    <line x1="200" y1="0" x2="200" y2="675"/>
+    <line x1="400" y1="0" x2="400" y2="675"/>
+    <line x1="600" y1="0" x2="600" y2="675"/>
+    <line x1="800" y1="0" x2="800" y2="675"/>
+    <line x1="1000" y1="0" x2="1000" y2="675"/>
+  </g>
+
+  <!-- Book/Flipbook representation -->
+  <g filter="url(#shadow)" transform="translate(600, 337)">
+    <!-- Left page -->
+    <g transform="translate(-180, -200)">
+      <rect width="160" height="240" rx="4" fill="url(#pageGrad)"/>
+      <rect x="20" y="30" width="100" height="8" rx="2" fill="#e2e8f0"/>
+      <rect x="20" y="50" width="120" height="6" rx="2" fill="#e2e8f0"/>
+      <rect x="20" y="65" width="110" height="6" rx="2" fill="#e2e8f0"/>
+      <rect x="20" y="80" width="115" height="6" rx="2" fill="#e2e8f0"/>
+      <rect x="20" y="100" width="120" height="80" rx="4" fill="#cbd5e1"/>
+      <rect x="20" y="195" width="100" height="6" rx="2" fill="#e2e8f0"/>
+      <rect x="20" y="210" width="80" height="6" rx="2" fill="#e2e8f0"/>
+    </g>
+
+    <!-- Center spine -->
+    <rect x="-10" y="-200" width="20" height="240" fill="#334155"/>
+
+    <!-- Right page (flipping) -->
+    <g transform="translate(20, -200) rotate(0)">
+      <rect width="160" height="240" rx="4" fill="url(#pageGrad)"/>
+      <rect x="20" y="30" width="80" height="8" rx="2" fill="url(#accentGrad)"/>
+      <rect x="20" y="50" width="120" height="6" rx="2" fill="#e2e8f0"/>
+      <rect x="20" y="65" width="100" height="6" rx="2" fill="#e2e8f0"/>
+      <rect x="20" y="80" width="115" height="6" rx="2" fill="#e2e8f0"/>
+      <rect x="20" y="95" width="105" height="6" rx="2" fill="#e2e8f0"/>
+      <rect x="20" y="120" width="120" height="70" rx="4" fill="#cbd5e1"/>
+      <rect x="20" y="200" width="90" height="6" rx="2" fill="#e2e8f0"/>
+      <rect x="20" y="215" width="70" height="6" rx="2" fill="#e2e8f0"/>
+    </g>
+
+    <!-- Flipping page effect -->
+    <g transform="translate(180, -200) rotate(-15)" opacity="0.9">
+      <path d="M0,0 Q80,-20 160,0 L160,240 Q80,260 0,240 Z" fill="url(#pageGrad)"/>
+      <rect x="20" y="40" width="100" height="6" rx="2" fill="#e2e8f0"/>
+      <rect x="20" y="55" width="120" height="6" rx="2" fill="#e2e8f0"/>
+      <rect x="20" y="70" width="90" height="6" rx="2" fill="#e2e8f0"/>
+    </g>
+  </g>
+
+  <!-- UI Elements -->
+  <!-- Toolbar -->
+  <g transform="translate(350, 560)">
+    <rect width="500" height="50" rx="25" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <circle cx="60" cy="25" r="15" fill="#334155"/>
+    <circle cx="110" cy="25" r="15" fill="#334155"/>
+    <rect x="150" y="15" width="80" height="20" rx="4" fill="#334155"/>
+    <circle cx="270" cy="25" r="15" fill="#334155"/>
+    <circle cx="320" cy="25" r="15" fill="#334155"/>
+    <rect x="355" y="10" width="1" height="30" fill="#334155"/>
+    <circle cx="390" cy="25" r="15" fill="#2563eb"/>
+    <circle cx="440" cy="25" r="15" fill="#334155"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="80" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="24" font-weight="600">
+    Premium FlipBook
+  </text>
+  <text x="600" y="110" text-anchor="middle" fill="#64748b" font-family="system-ui, sans-serif" font-size="14">
+    Professional PDF &amp; Image Viewer
+  </text>
+</svg>

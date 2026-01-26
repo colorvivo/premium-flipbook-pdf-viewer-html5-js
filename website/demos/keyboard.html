@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keyboard Navigation - Premium FlipBook Demo</title>
+  <link rel="stylesheet" href="../dist/premium-flipbook.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #fff;
+    }
+    .demo-header {
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(37,99,235,0.2) 0%, transparent 100%);
+    }
+    .demo-header h1 { font-size: 24px; margin-bottom: 8px; }
+    .demo-header p { color: rgba(255,255,255,0.7); font-size: 14px; }
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+    #flipbook-container {
+      width: 100%;
+      height: 55vh;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .keyboard-hints {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    .keyboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .key-group {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .key-group h4 {
+      font-size: 13px;
+      color: #a5b4fc;
+      margin-bottom: 12px;
+    }
+    .key-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .key {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      height: 28px;
+      padding: 0 8px;
+      background: #2d2d3f;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 11px;
+      color: #fff;
+    }
+    .key-action {
+      color: rgba(255,255,255,0.6);
+    }
+    .key-indicator {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(37, 99, 235, 0.9);
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .key-indicator.visible { opacity: 1; }
+    .code-section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .code-section h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #a5b4fc;
+    }
+    .code-block {
+      background: #1e1e2e;
+      border-radius: 12px;
+      padding: 20px;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .code-block .comment { color: #6b7280; }
+    .code-block .keyword { color: #c792ea; }
+    .code-block .string { color: #c3e88d; }
+    .code-block .property { color: #82aaff; }
+      /* Site Header and Footer */
+    .site-header { background: #0a0a12; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .site-header .logo { color: #fff; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .site-header .logo span { color: #3b82f6; }
+    .site-header nav { display: flex; gap: 20px; }
+    .site-header nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .site-header nav a:hover { color: #fff; }
+    /* Full Footer */
+    .full-footer { padding: 60px 0; border-top: 1px solid rgba(255,255,255,0.05); background: #0a0a12; }
+    .full-footer .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } }
+    .footer-brand h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; color: #fff; }
+    .footer-brand p { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
+    .footer-social { display: flex; gap: 12px; }
+    .footer-social a { width: 40px; height: 40px; background: #1e1e2e; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; color: #fff; text-decoration: none; }
+    .footer-social a:hover { background: #2563eb; }
+    .footer-links h4 { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .footer-links ul { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a { color: #94a3b8; font-size: 14px; transition: color 0.2s; text-decoration: none; }
+    .footer-links a:hover { color: #fff; }
+    .footer-bottom { margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: #94a3b8; font-size: 14px; }
+    .footer-bottom a { color: #3b82f6; text-decoration: none; }
+    .footer-bottom a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="../index.html" class="logo">Premium <span>FlipBook</span></a>
+    <nav>
+      <a href="../index.html#features">Features</a>
+      <a href="../index.html#renderers">Renderers</a>
+      <a href="./index.html">Demos</a>
+      <a href="./docs-api.html">API</a>
+      <a href="./docs-usage.html">Guide</a>
+      <a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank">GitHub</a>
+      <a href="../index.html#download" style="background:#2563eb;padding:6px 12px;border-radius:6px;color:#fff;">Download</a>
+    </nav>
+  </header>
+
+  <div class="demo-header">
+    <h1>Keyboard Navigation</h1>
+    <p>Full keyboard support for accessibility</p>
+  </div>
+
+  <div id="flipbook-container"></div>
+
+  <div class="keyboard-hints">
+    <div class="keyboard-grid">
+      <div class="key-group">
+        <h4>Navigation</h4>
+        <div class="key-row">
+          <span class="key">←</span>
+          <span class="key">→</span>
+          <span class="key-action">Previous / Next page</span>
+        </div>
+        <div class="key-row">
+          <span class="key">Page Up</span>
+          <span class="key">Page Down</span>
+          <span class="key-action">Prev / Next</span>
+        </div>
+        <div class="key-row">
+          <span class="key">Home</span>
+          <span class="key">End</span>
+          <span class="key-action">First / Last page</span>
+        </div>
+      </div>
+
+      <div class="key-group">
+        <h4>Zoom</h4>
+        <div class="key-row">
+          <span class="key">+</span>
+          <span class="key">-</span>
+          <span class="key-action">Zoom in / out</span>
+        </div>
+        <div class="key-row">
+          <span class="key">0</span>
+          <span class="key-action">Reset zoom</span>
+        </div>
+        <div class="key-row">
+          <span class="key">Ctrl</span><span class="key">Scroll</span>
+          <span class="key-action">Zoom</span>
+        </div>
+      </div>
+
+      <div class="key-group">
+        <h4>Features</h4>
+        <div class="key-row">
+          <span class="key">F</span>
+          <span class="key-action">Toggle fullscreen</span>
+        </div>
+        <div class="key-row">
+          <span class="key">T</span>
+          <span class="key-action">Toggle thumbnails</span>
+        </div>
+        <div class="key-row">
+          <span class="key">Esc</span>
+          <span class="key-action">Exit fullscreen / Close panels</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-indicator" id="key-indicator"></div>
+
+  <div class="code-section">
+    <h2>Code Example</h2>
+    <pre class="code-block"><span class="keyword">const</span> flipbook = <span class="keyword">new</span> PremiumFlipBook({
+  <span class="property">container</span>: <span class="string">'#flipbook-container'</span>,
+  <span class="property">pdfUrl</span>: <span class="string">'./document.pdf'</span>,
+
+  <span class="property">ui</span>: {
+    <span class="property">navigation</span>: {
+      <span class="property">keyboard</span>: <span class="keyword">true</span>,        <span class="comment">// Enable keyboard navigation</span>
+      <span class="property">arrows</span>: <span class="keyword">true</span>,          <span class="comment">// Show arrow buttons</span>
+      <span class="property">clickToFlip</span>: <span class="keyword">true</span>,     <span class="comment">// Click edges to flip</span>
+      <span class="property">mouseWheel</span>: <span class="keyword">false</span>      <span class="comment">// Scroll to navigate</span>
+    }
+  },
+
+  <span class="comment">// Accessibility options</span>
+  <span class="property">accessibility</span>: {
+    <span class="property">enabled</span>: <span class="keyword">true</span>,
+    <span class="property">ariaLabels</span>: <span class="keyword">true</span>,       <span class="comment">// Add ARIA labels</span>
+    <span class="property">focusIndicator</span>: <span class="keyword">true</span>,  <span class="comment">// Visual focus ring</span>
+    <span class="property">announcePageChange</span>: <span class="keyword">true</span> <span class="comment">// Screen reader announcements</span>
+  }
+});</pre>
+  </div>
+
+  <script src="../dist/premium-flipbook.min.js"></script>
+  <script>
+
+    const keyIndicator = document.getElementById('key-indicator');
+    let hideTimeout;
+
+    function showKeyPress(key) {
+      keyIndicator.textContent = `Key pressed: ${key}`;
+      keyIndicator.classList.add('visible');
+      clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(() => {
+        keyIndicator.classList.remove('visible');
+      }, 1000);
+    }
+
+    const flipbook = new PremiumFlipBook({
+      container: '#flipbook-container',
+      images: [
+        './assets/pages/page1.svg',
+        './assets/pages/page2.svg',
+        './assets/pages/page3.svg',
+        './assets/pages/page4.svg',
+        './assets/pages/page5.svg',
+        './assets/pages/page6.svg',
+        './assets/pages/page7.svg',
+        './assets/pages/page8.svg'
+      ],
+      renderMode: 'css',
+      ui: {
+        toolbar: { enabled: true },
+        thumbnails: { enabled: true },
+        navigation: {
+          keyboard: true,
+          arrows: true,
+          clickToFlip: true
+        }
+      },
+      accessibility: {
+        enabled: true,
+        ariaLabels: true,
+        focusIndicator: true
+      }
+    });
+
+    // Show key press feedback
+    document.addEventListener('keydown', (e) => {
+      const keyMap = {
+        'ArrowLeft': '← Previous',
+        'ArrowRight': '→ Next',
+        'Home': 'Home - First page',
+        'End': 'End - Last page',
+        'PageUp': 'Page Up',
+        'PageDown': 'Page Down',
+        'f': 'F - Fullscreen',
+        'F': 'F - Fullscreen',
+        't': 'T - Thumbnails',
+        'T': 'T - Thumbnails',
+        '+': '+ Zoom In',
+        '=': '+ Zoom In',
+        '-': '- Zoom Out',
+        '0': '0 Reset Zoom',
+        'Escape': 'Esc - Close'
+      };
+
+      if (keyMap[e.key]) {
+        showKeyPress(keyMap[e.key]);
+      }
+    });
+
+    window.flipbook = flipbook;
+  </script>
+  <!-- Full Footer -->
+  <footer class="full-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Premium FlipBook</h3>
+          <p>Professional PDF & Image viewer with realistic 3D page flip animations. Pure JavaScript, no dependencies.</p>
+          <div class="footer-social">
+            <a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank" title="GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../index.html#features">Features</a></li>
+            <li><a href="../index.html#renderers">Renderers</a></li>
+            <li><a href="../index.html#demo">Demo</a></li>
+            <li><a href="../index.html#download">Download</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="./docs-usage.html">Getting Started</a></li>
+            <li><a href="./docs-api.html">API Reference</a></li>
+            <li><a href="./docs-options.html">Options</a></li>
+            <li><a href="./docs-events.html">Events</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="./index.html">Demo Gallery</a></li>
+            <li><a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank">GitHub</a></li>
+            <li><a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer/issues" target="_blank">Report Issue</a></li>
+            <li><a href="./docs-troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Premium FlipBook by <a href="https://colorvivo.com/" target="_blank">Color Vivo Internet</a>. Released under MIT License.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events Reference - Premium FlipBook Documentation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+    .doc-header {
+      padding: 30px 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(37,99,235,0.2) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .doc-header h1 { font-size: 32px; margin-bottom: 8px; color: #fff; }
+    .doc-header p { color: rgba(255,255,255,0.7); font-size: 16px; }
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+    .doc-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px;
+      flex-wrap: wrap;
+      background: rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .doc-nav a {
+      color: #93c5fd;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .doc-nav a:hover { background: rgba(255,255,255,0.1); }
+    .doc-nav a.active { background: #2563eb; color: #fff; }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    h2 {
+      font-size: 24px;
+      color: #a5b4fc;
+      margin: 40px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    h2:first-child { margin-top: 0; }
+    h3 {
+      font-size: 18px;
+      color: #c4b5fd;
+      margin: 30px 0 12px;
+    }
+    h4 {
+      font-size: 16px;
+      color: #93c5fd;
+      margin: 24px 0 10px;
+      font-family: 'Monaco', 'Menlo', monospace;
+    }
+    p { margin-bottom: 12px; color: #cbd5e1; }
+    code {
+      background: rgba(255,255,255,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 13px;
+      color: #fbbf24;
+    }
+    pre {
+      background: #1e1e2e;
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      margin: 12px 0 24px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      color: #e2e8f0;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .doc-footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 60px;
+    }
+    .doc-footer a { color: #93c5fd; text-decoration: none; }
+    .doc-footer a:hover { text-decoration: underline; }
+      /* Site Header */
+    .site-header { background: #0a0a12; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+    .site-header .logo { color: #fff; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .site-header .logo span { color: #3b82f6; }
+    .site-header nav { display: flex; gap: 20px; align-items: center; }
+    .site-header nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .site-header nav a:hover { color: #fff; }
+    .site-header nav a.cta { background: #2563eb; padding: 6px 12px; border-radius: 6px; color: #fff; }
+    /* Full Footer */
+    .full-footer { padding: 60px 0; border-top: 1px solid rgba(255,255,255,0.05); background: #0a0a12; }
+    .full-footer .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } }
+    .footer-brand h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; color: #fff; }
+    .footer-brand p { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
+    .footer-social { display: flex; gap: 12px; }
+    .footer-social a { width: 40px; height: 40px; background: #1e1e2e; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; color: #fff; text-decoration: none; }
+    .footer-social a:hover { background: #2563eb; }
+    .footer-links h4 { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .footer-links ul { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a { color: #94a3b8; font-size: 14px; transition: color 0.2s; text-decoration: none; }
+    .footer-links a:hover { color: #fff; }
+    .footer-bottom { margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: #94a3b8; font-size: 14px; }
+    .footer-bottom a { color: #3b82f6; text-decoration: none; }
+    .footer-bottom a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="../index.html" class="logo">Premium <span>FlipBook</span></a>
+    <nav>
+      <a href="../index.html#features">Features</a>
+      <a href="../index.html#renderers">Renderers</a>
+      <a href="./index.html">Demos</a>
+      <a href="./docs-api.html">API</a>
+      <a href="./docs-usage.html">Guide</a>
+      <a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank">GitHub</a>
+      <a href="../index.html#download" class="cta">Download</a>
+    </nav>
+  </header>
+
+  <div class="doc-header">
+    <h1>Events Reference</h1>
+    <p>Complete list of events emitted by Premium FlipBook</p>
+  </div>
+
+  <nav class="doc-nav">
+    <a href="../index.html">Website</a>
+    <a href="../index.html#renderers">Renderers</a>
+      <a href="./index.html">Demos</a>
+    <a href="./docs-api.html">API Reference</a>
+    <a href="./docs-options.html">Options</a>
+    <a href="./docs-usage.html">Usage Guide</a>
+    <a href="./docs-events.html" class="active">Events</a>
+    <a href="./docs-troubleshooting.html">Troubleshooting</a>
+  </nav>
+
+  <div class="container">
+    <h2>Usage</h2>
+    <pre><code>// Subscribe to an event
+flipbook.on('eventName', (data) => {
+  console.log(data);
+});
+
+// Subscribe once
+flipbook.once('eventName', (data) => {
+  console.log('Only called once');
+});
+
+// Unsubscribe
+const handler = (data) => {};
+flipbook.on('eventName', handler);
+flipbook.off('eventName', handler);
+
+// Unsubscribe all
+flipbook.off('eventName');</code></pre>
+
+    <h2>Lifecycle Events</h2>
+
+    <h4>init</h4>
+    <p>Fired when initialization begins.</p>
+    <pre><code>flipbook.on('init', () => {
+  console.log('Initializing...');
+});</code></pre>
+
+    <h4>ready</h4>
+    <p>Fired when flipbook is ready to use.</p>
+    <pre><code>flipbook.on('ready', ({ flipbook }) => {
+  console.log('FlipBook is ready!');
+  console.log('Total pages:', flipbook.getPageCount());
+});</code></pre>
+
+    <h4>destroy</h4>
+    <p>Fired before the flipbook is destroyed.</p>
+    <pre><code>flipbook.on('destroy', () => {
+  console.log('Cleaning up...');
+});</code></pre>
+
+    <h4>error</h4>
+    <p>Fired when an error occurs.</p>
+    <pre><code>flipbook.on('error', (error) => {
+  console.error('Error:', error.message);
+  console.error('Code:', error.code);
+});</code></pre>
+
+    <h2>Page Events</h2>
+
+    <h4>pageChange</h4>
+    <p>Fired when the current page changes.</p>
+    <pre><code>flipbook.on('pageChange', ({ page, previousPage, totalPages }) => {
+  console.log(`Page ${page} of ${totalPages}`);
+});</code></pre>
+
+    <h4>pageLoad</h4>
+    <p>Fired when a page finishes loading.</p>
+    <pre><code>flipbook.on('pageLoad', ({ page }) => {
+  console.log(`Page ${page} loaded`);
+});</code></pre>
+
+    <h4>pageRender</h4>
+    <p>Fired when a page is rendered.</p>
+    <pre><code>flipbook.on('pageRender', ({ page }) => {
+  console.log(`Page ${page} rendered`);
+});</code></pre>
+
+    <h2>Flip Events</h2>
+
+    <h4>flipStart</h4>
+    <p>Fired when a flip animation starts.</p>
+    <pre><code>flipbook.on('flipStart', ({ direction, fromPage }) => {
+  console.log(`Flipping ${direction} from page ${fromPage}`);
+});</code></pre>
+
+    <h4>flipProgress</h4>
+    <p>Fired during flip animation.</p>
+    <pre><code>flipbook.on('flipProgress', ({ progress }) => {
+  console.log(`Flip progress: ${progress * 100}%`);
+});</code></pre>
+
+    <h4>flipEnd</h4>
+    <p>Fired when a flip animation completes.</p>
+    <pre><code>flipbook.on('flipEnd', ({ page }) => {
+  console.log(`Landed on page ${page}`);
+});</code></pre>
+
+    <h4>flipCancel</h4>
+    <p>Fired when a flip animation is cancelled.</p>
+    <pre><code>flipbook.on('flipCancel', () => {
+  console.log('Flip was cancelled');
+});</code></pre>
+
+    <h2>Zoom Events</h2>
+
+    <h4>zoomChange</h4>
+    <p>Fired when zoom level changes.</p>
+    <pre><code>flipbook.on('zoomChange', ({ zoom, previousZoom }) => {
+  console.log(`Zoom: ${zoom * 100}%`);
+});</code></pre>
+
+    <h4>zoomStart</h4>
+    <p>Fired when zooming starts (pinch/wheel).</p>
+    <pre><code>flipbook.on('zoomStart', ({ zoom }) => {
+  console.log('Zooming started');
+});</code></pre>
+
+    <h4>zoomEnd</h4>
+    <p>Fired when zooming ends.</p>
+    <pre><code>flipbook.on('zoomEnd', ({ zoom }) => {
+  console.log('Zooming ended');
+});</code></pre>
+
+    <h4>panStart</h4>
+    <p>Fired when panning starts.</p>
+    <pre><code>flipbook.on('panStart', ({ x, y }) => {
+  console.log('Panning started');
+});</code></pre>
+
+    <h4>panMove</h4>
+    <p>Fired during panning.</p>
+    <pre><code>flipbook.on('panMove', ({ x, y }) => {
+  console.log(`Pan position: ${x}, ${y}`);
+});</code></pre>
+
+    <h4>panEnd</h4>
+    <p>Fired when panning ends.</p>
+    <pre><code>flipbook.on('panEnd', ({ x, y }) => {
+  console.log('Panning ended');
+});</code></pre>
+
+    <h2>UI Events</h2>
+
+    <h4>toolbarToggle</h4>
+    <p>Fired when toolbar visibility changes.</p>
+    <pre><code>flipbook.on('toolbarToggle', ({ isVisible }) => {
+  console.log(`Toolbar ${isVisible ? 'shown' : 'hidden'}`);
+});</code></pre>
+
+    <h4>thumbnailsToggle</h4>
+    <p>Fired when thumbnails panel toggles.</p>
+    <pre><code>flipbook.on('thumbnailsToggle', ({ isOpen }) => {
+  console.log(`Thumbnails ${isOpen ? 'opened' : 'closed'}`);
+});</code></pre>
+
+    <h4>tocToggle</h4>
+    <p>Fired when TOC panel toggles.</p>
+    <pre><code>flipbook.on('tocToggle', ({ isOpen }) => {
+  console.log(`TOC ${isOpen ? 'opened' : 'closed'}`);
+});</code></pre>
+
+    <h4>searchToggle</h4>
+    <p>Fired when search panel toggles.</p>
+    <pre><code>flipbook.on('searchToggle', ({ isOpen }) => {
+  console.log(`Search ${isOpen ? 'opened' : 'closed'}`);
+});</code></pre>
+
+    <h4>fullscreenChange</h4>
+    <p>Fired when fullscreen state changes.</p>
+    <pre><code>flipbook.on('fullscreenChange', ({ isFullscreen }) => {
+  console.log(`Fullscreen: ${isFullscreen}`);
+});</code></pre>
+
+    <h2>Feature Events</h2>
+
+    <h4>autoplayStart</h4>
+    <p>Fired when autoplay starts.</p>
+    <pre><code>flipbook.on('autoplayStart', () => {
+  console.log('Autoplay started');
+});</code></pre>
+
+    <h4>autoplayStop</h4>
+    <p>Fired when autoplay stops.</p>
+    <pre><code>flipbook.on('autoplayStop', () => {
+  console.log('Autoplay stopped');
+});</code></pre>
+
+    <h4>lightboxOpen</h4>
+    <p>Fired when lightbox opens.</p>
+    <pre><code>flipbook.on('lightboxOpen', () => {
+  console.log('Lightbox opened');
+});</code></pre>
+
+    <h4>lightboxClose</h4>
+    <p>Fired when lightbox closes.</p>
+    <pre><code>flipbook.on('lightboxClose', () => {
+  console.log('Lightbox closed');
+});</code></pre>
+
+    <h4>deepLinkChange</h4>
+    <p>Fired when URL hash changes.</p>
+    <pre><code>flipbook.on('deepLinkChange', ({ page, hash }) => {
+  console.log(`Deep link: ${hash}`);
+});</code></pre>
+
+    <h2>Source Events</h2>
+
+    <h4>sourceLoadStart</h4>
+    <p>Fired when source loading begins.</p>
+    <pre><code>flipbook.on('sourceLoadStart', () => {
+  console.log('Loading source...');
+});</code></pre>
+
+    <h4>sourceLoadProgress</h4>
+    <p>Fired during source loading.</p>
+    <pre><code>flipbook.on('sourceLoadProgress', ({ progress }) => {
+  console.log(`Loading: ${progress}%`);
+});</code></pre>
+
+    <h4>sourceLoadComplete</h4>
+    <p>Fired when source loading completes.</p>
+    <pre><code>flipbook.on('sourceLoadComplete', ({ pageCount, type }) => {
+  console.log(`Loaded ${pageCount} pages from ${type}`);
+});</code></pre>
+
+    <h4>sourceLoadError</h4>
+    <p>Fired when source loading fails.</p>
+    <pre><code>flipbook.on('sourceLoadError', (error) => {
+  console.error('Failed to load source:', error);
+});</code></pre>
+
+    <h2>Renderer Events</h2>
+
+    <h4>rendererChange</h4>
+    <p>Fired when renderer changes.</p>
+    <pre><code>flipbook.on('rendererChange', ({ renderer }) => {
+  console.log(`Switched to ${renderer} renderer`);
+});</code></pre>
+
+    <h4>resize</h4>
+    <p>Fired when container is resized.</p>
+    <pre><code>flipbook.on('resize', ({ width, height }) => {
+  console.log(`Resized to ${width}x${height}`);
+});</code></pre>
+
+    <h4>modeChange</h4>
+    <p>Fired when display mode changes (single/double).</p>
+    <pre><code>flipbook.on('modeChange', ({ mode }) => {
+  console.log(`Display mode: ${mode}`);
+});</code></pre>
+  </div>
+
+  <div class="doc-footer">
+    <p><a href="./docs-usage.html">&larr; Previous: Usage Guide</a> | <a href="./docs-troubleshooting.html">Next: Troubleshooting &rarr;</a></p>
+  </div>
+  <!-- Full Footer -->
+  <footer class="full-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Premium FlipBook</h3>
+          <p>Professional PDF & Image viewer with realistic 3D page flip animations. Pure JavaScript, no dependencies.</p>
+          <div class="footer-social">
+            <a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank" title="GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../index.html#features">Features</a></li>
+            <li><a href="../index.html#renderers">Renderers</a></li>
+            <li><a href="../index.html#demo">Demo</a></li>
+            <li><a href="../index.html#download">Download</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="./docs-usage.html">Getting Started</a></li>
+            <li><a href="./docs-api.html">API Reference</a></li>
+            <li><a href="./docs-options.html">Options</a></li>
+            <li><a href="./docs-events.html">Events</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="./index.html">Demo Gallery</a></li>
+            <li><a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank">GitHub</a></li>
+            <li><a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer/issues" target="_blank">Report Issue</a></li>
+            <li><a href="./docs-troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Premium FlipBook by <a href="https://colorvivo.com/" target="_blank">Color Vivo Internet</a>. Released under MIT License.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

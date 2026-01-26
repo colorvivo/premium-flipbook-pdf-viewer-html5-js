@@ -1,0 +1,70 @@
+{
+  "name": "premium-flipbook-pdf-viewer",
+  "version": "1.0.0",
+  "description": "Premium FlipBook PDF/Image Viewer with WebGL 3D, CSS 3D/2D, and Swipe rendering modes",
+  "keywords": [
+    "flipbook",
+    "pdf-viewer",
+    "pdf",
+    "ebook",
+    "page-flip",
+    "webgl",
+    "3d",
+    "magazine",
+    "catalog",
+    "book",
+    "viewer"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT",
+  "author": "Color Vivo Internet",
+  "type": "commonjs",
+  "exports": {
+    ".": {
+      "import": "./dist/premium-flipbook.esm.js",
+      "require": "./dist/premium-flipbook.min.js"
+    },
+    "./css": "./dist/premium-flipbook.css"
+  },
+  "main": "dist/premium-flipbook.min.js",
+  "types": "dist/types/index.d.ts",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src/",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "pdfjs-dist": "^4.0.379",
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "terser": "^5.24.0"
+  },
+  "peerDependencies": {
+    "pdfjs-dist": ">=3.0.0",
+    "three": ">=0.150.0"
+  },
+  "peerDependenciesMeta": {
+    "pdfjs-dist": {
+      "optional": true
+    },
+    "three": {
+      "optional": true
+    }
+  },
+  "module": "dist/premium-flipbook.esm.js"
+}

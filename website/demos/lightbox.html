@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium FlipBook - Lightbox Demo</title>
+  <link rel="stylesheet" href="../dist/premium-flipbook.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .content {
+      text-align: center;
+      max-width: 600px;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .subtitle {
+      font-size: 18px;
+      opacity: 0.9;
+      margin-bottom: 40px;
+    }
+
+    .triggers {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .trigger-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 40px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .trigger-btn:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .trigger-btn svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 12px;
+    }
+
+    .trigger-btn span {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .trigger-btn small {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+
+    .info {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    /* Hidden flipbook container for lightbox mode */
+    #flipbook-container {
+      display: none;
+    }
+      /* Site Header and Footer */
+    .site-header { background: #0a0a12; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .site-header .logo { color: #fff; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .site-header .logo span { color: #3b82f6; }
+    .site-header nav { display: flex; gap: 20px; }
+    .site-header nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .site-header nav a:hover { color: #fff; }
+    /* Full Footer */
+    .full-footer { padding: 60px 0; border-top: 1px solid rgba(255,255,255,0.05); background: #0a0a12; }
+    .full-footer .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } }
+    .footer-brand h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; color: #fff; }
+    .footer-brand p { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
+    .footer-social { display: flex; gap: 12px; }
+    .footer-social a { width: 40px; height: 40px; background: #1e1e2e; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; color: #fff; text-decoration: none; }
+    .footer-social a:hover { background: #2563eb; }
+    .footer-links h4 { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .footer-links ul { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a { color: #94a3b8; font-size: 14px; transition: color 0.2s; text-decoration: none; }
+    .footer-links a:hover { color: #fff; }
+    .footer-bottom { margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: #94a3b8; font-size: 14px; }
+    .footer-bottom a { color: #3b82f6; text-decoration: none; }
+    .footer-bottom a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="../index.html" class="logo">Premium <span>FlipBook</span></a>
+    <nav>
+      <a href="../index.html#features">Features</a>
+      <a href="../index.html#renderers">Renderers</a>
+      <a href="./index.html">Demos</a>
+      <a href="./docs-api.html">API</a>
+      <a href="./docs-usage.html">Guide</a>
+      <a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank">GitHub</a>
+      <a href="../index.html#download" style="background:#2563eb;padding:6px 12px;border-radius:6px;color:#fff;">Download</a>
+    </nav>
+  </header>
+  <div class="content">
+    <h1>Lightbox Mode</h1>
+    <p class="subtitle">Click a trigger to open the flipbook in a modal overlay</p>
+
+    <div class="triggers">
+      <a href="#" class="trigger-btn lightbox-trigger" data-page="1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <span>Open Magazine</span>
+        <small>Start from cover</small>
+      </a>
+
+      <a href="#" class="trigger-btn lightbox-trigger" data-page="4">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+        <span>View Gallery</span>
+        <small>Jump to page 4</small>
+      </a>
+
+      <a href="#" class="trigger-btn" onclick="flipbook.openLightbox(8); return false;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span>Last Page</span>
+        <small>Via JavaScript</small>
+      </a>
+    </div>
+
+    <p class="info">Press Escape or click outside to close the lightbox</p>
+  </div>
+
+  <!-- Hidden container for flipbook -->
+  <div id="flipbook-container"></div>
+
+  <!-- Premium FlipBook -->
+  <script src="../dist/premium-flipbook.min.js"></script>
+  <script>
+
+    // Sample images
+    const images = [
+      'https://picsum.photos/800/1131?random=20',
+      'https://picsum.photos/800/1131?random=21',
+      'https://picsum.photos/800/1131?random=22',
+      'https://picsum.photos/800/1131?random=23',
+      'https://picsum.photos/800/1131?random=24',
+      'https://picsum.photos/800/1131?random=25',
+      'https://picsum.photos/800/1131?random=26',
+      'https://picsum.photos/800/1131?random=27'
+    ];
+
+    // Initialize flipbook with lightbox mode
+    const flipbook = new PremiumFlipBook({
+      container: '#flipbook-container',
+
+      // Image source
+      images: images,
+
+      // Renderer
+      renderMode: 'css',
+
+      // UI
+      ui: {
+        toolbar: {
+          enabled: true
+        },
+        thumbnails: {
+          enabled: true
+        }
+      },
+
+      // Lightbox feature
+      features: {
+        lightbox: true,
+        lightboxTrigger: '.lightbox-trigger',
+        fullscreen: true,
+        deepLinking: true
+      },
+
+      // Callbacks
+      onReady: (fb) => {
+        console.log('Lightbox FlipBook ready!');
+      }
+    });
+
+    // Export for console access
+    window.flipbook = flipbook;
+  </script>
+  <!-- Full Footer -->
+  <footer class="full-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Premium FlipBook</h3>
+          <p>Professional PDF & Image viewer with realistic 3D page flip animations. Pure JavaScript, no dependencies.</p>
+          <div class="footer-social">
+            <a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank" title="GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../index.html#features">Features</a></li>
+            <li><a href="../index.html#renderers">Renderers</a></li>
+            <li><a href="../index.html#demo">Demo</a></li>
+            <li><a href="../index.html#download">Download</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="./docs-usage.html">Getting Started</a></li>
+            <li><a href="./docs-api.html">API Reference</a></li>
+            <li><a href="./docs-options.html">Options</a></li>
+            <li><a href="./docs-events.html">Events</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="./index.html">Demo Gallery</a></li>
+            <li><a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank">GitHub</a></li>
+            <li><a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer/issues" target="_blank">Report Issue</a></li>
+            <li><a href="./docs-troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Premium FlipBook by <a href="https://colorvivo.com/" target="_blank">Color Vivo Internet</a>. Released under MIT License.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

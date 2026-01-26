@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium FlipBook - Images Demo</title>
+  <link rel="stylesheet" href="../dist/premium-flipbook.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    .header {
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(16,185,129,0.2) 0%, transparent 100%);
+    }
+
+    .header h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #10b981;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    #flipbook-container {
+      width: 100%;
+      height: calc(100vh - 140px);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .info-text {
+      padding: 20px;
+      text-align: center;
+      color: rgba(255,255,255,0.5);
+      font-size: 12px;
+    }
+      /* Site Header */
+    .site-header { background: #0a0a12; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .site-header .logo { color: #fff; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .site-header .logo span { color: #3b82f6; }
+    .site-header nav { display: flex; gap: 20px; align-items: center; }
+    .site-header nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; }
+    .site-header nav a:hover { color: #fff; }
+    .site-footer { background: #0a0a12; border-top: 1px solid rgba(255,255,255,0.1); padding: 20px; text-align: center; margin-top: 40px; }
+    .site-footer p { color: rgba(255,255,255,0.5); font-size: 13px; }
+    .site-footer a { color: #3b82f6; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Images Demo</h1>
+    <p>FlipBook from image array - No PDF.js required!</p>
+    <span class="badge">Lightweight</span>
+  </div>
+
+  <div id="flipbook-container"></div>
+
+  <p class="info-text">
+    This demo uses an array of images. Perfect for when you want to avoid the PDF.js dependency.
+  </p>
+
+  <!-- Premium FlipBook -->
+  <script src="../dist/premium-flipbook.min.js"></script>
+  <script>
+
+    // Sample image URLs (using placeholder images)
+    const images = [
+      'https://picsum.photos/800/1131?random=1',
+      'https://picsum.photos/800/1131?random=2',
+      'https://picsum.photos/800/1131?random=3',
+      'https://picsum.photos/800/1131?random=4',
+      'https://picsum.photos/800/1131?random=5',
+      'https://picsum.photos/800/1131?random=6',
+      'https://picsum.photos/800/1131?random=7',
+      'https://picsum.photos/800/1131?random=8'
+    ];
+
+    // Initialize flipbook with images
+    const flipbook = new PremiumFlipBook({
+      container: '#flipbook-container',
+
+      // Image source (no PDF.js needed!)
+      images: images,
+
+      // Use CSS renderer (works without Three.js too)
+      renderMode: 'css',
+
+      // UI options
+      ui: {
+        toolbar: {
+          enabled: true,
+          buttons: [
+            'first', 'prev', 'pageInput', 'next', 'last',
+            'separator',
+            'zoomOut', 'zoomIn',
+            'separator',
+            'thumbnails',
+            'fullscreen'
+          ]
+        },
+        thumbnails: {
+          enabled: true
+        },
+        // No search for image-only source
+        search: {
+          enabled: false
+        }
+      },
+
+      // Features
+      features: {
+        deepLinking: true,
+        fullscreen: true,
+        autoplay: {
+          enabled: true,
+          interval: 4000,
+          pauseOnHover: true
+        }
+      },
+
+      // Callbacks
+      onReady: (fb) => {
+        console.log('FlipBook ready with', fb.getPageCount(), 'pages');
+      }
+    });
+
+    // Export for console access
+    window.flipbook = flipbook;
+  </script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium FlipBook - PDF Demo</title>
+  <link rel="stylesheet" href="../dist/premium-flipbook.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .header {
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(37,99,235,0.2) 0%, transparent 100%);
+    }
+
+    .header h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+    }
+
+    #flipbook-container {
+      width: 100%;
+      height: calc(100vh - 120px);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .demo-controls {
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .demo-btn {
+      padding: 10px 20px;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+
+    .demo-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .demo-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .demo-btn.active {
+      background: #16a34a;
+    }
+
+    .demo-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .demo-section-label {
+      color: rgba(255,255,255,0.6);
+      font-size: 12px;
+      margin-right: 4px;
+    }
+
+    .demo-separator {
+      width: 1px;
+      height: 24px;
+      background: rgba(255,255,255,0.2);
+      margin: 0 8px;
+    }
+
+    .info-text {
+      padding: 20px;
+      text-align: center;
+      color: rgba(255,255,255,0.5);
+      font-size: 12px;
+    }
+    .demo-footer {
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
+      font-size: 14px;
+    }
+    .demo-footer a {
+      color: #93c5fd;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+    .demo-footer a:hover { text-decoration: underline; }
+      /* Site Header */
+    .site-header { background: #0a0a12; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .site-header .logo { color: #fff; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .site-header .logo span { color: #3b82f6; }
+    .site-header nav { display: flex; gap: 20px; align-items: center; }
+    .site-header nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; }
+    .site-header nav a:hover { color: #fff; }
+    .site-footer { background: #0a0a12; border-top: 1px solid rgba(255,255,255,0.1); padding: 20px; text-align: center; margin-top: 40px; }
+    .site-footer p { color: rgba(255,255,255,0.5); font-size: 13px; }
+    .site-footer a { color: #3b82f6; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <a href="./index.html" class="back-link">← Back to Demos</a>
+
+  <div class="header">
+    <h1>Premium FlipBook PDF Viewer</h1>
+    <p>WebGL 3D, CSS 3D, and Swipe rendering modes</p>
+  </div>
+
+  <div id="flipbook-container"></div>
+
+  <div class="demo-controls">
+    <div class="demo-section">
+      <button class="demo-btn" id="btn-prev" disabled>← Prev</button>
+      <button class="demo-btn" id="btn-next" disabled>Next →</button>
+    </div>
+
+    <div class="demo-separator"></div>
+
+    <div class="demo-section">
+      <span class="demo-section-label">Renderer:</span>
+      <button class="demo-btn" id="btn-webgl" disabled>WebGL</button>
+      <button class="demo-btn" id="btn-css" disabled>CSS 3D</button>
+      <button class="demo-btn" id="btn-swipe" disabled>Swipe</button>
+    </div>
+
+    <div class="demo-separator"></div>
+
+    <div class="demo-section">
+      <span class="demo-section-label">Transition:</span>
+      <button class="demo-btn active" id="btn-trans-fade" disabled>Fade</button>
+      <button class="demo-btn" id="btn-trans-slide" disabled>Slide</button>
+      <button class="demo-btn" id="btn-trans-flip" disabled>Flip</button>
+      <button class="demo-btn" id="btn-trans-none" disabled>None</button>
+    </div>
+
+    <div class="demo-separator"></div>
+
+    <div class="demo-section">
+      <span class="demo-section-label">Pages:</span>
+      <button class="demo-btn" id="btn-single" disabled>Single</button>
+      <button class="demo-btn active" id="btn-double" disabled>Double</button>
+    </div>
+
+    <div class="demo-separator"></div>
+
+    <button class="demo-btn" id="btn-fullscreen" disabled>⛶ Fullscreen</button>
+  </div>
+
+  <p class="info-text">
+    Use arrow keys to navigate. Press F for fullscreen. Ctrl+scroll to zoom.
+  </p>
+
+  <!-- Premium FlipBook -->
+    }
+  </script>
+  <script src="../dist/premium-flipbook.min.js"></script>
+  <script>
+
+    // Initialize flipbook
+    window.flipbook = new PremiumFlipBook({
+      container: '#flipbook-container',
+
+      // PDF source
+      images: [
+        './assets/pages/page1.svg',
+        './assets/pages/page2.svg',
+        './assets/pages/page3.svg',
+        './assets/pages/page4.svg',
+        './assets/pages/page5.svg',
+        './assets/pages/page6.svg',
+        './assets/pages/page7.svg',
+        './assets/pages/page8.svg'
+      ],
+
+      // Renderer options
+      renderMode: 'auto',
+
+      // Page settings
+      startPage: 1,
+
+      // Zoom
+      zoom: {
+        enabled: true,
+        min: 1,
+        max: 4,
+        wheelZoom: true,
+        pinchZoom: true
+      },
+
+      // UI
+      ui: {
+        toolbar: {
+          enabled: true,
+          position: 'bottom'
+        },
+        thumbnails: {
+          enabled: true,
+          position: 'left'
+        },
+        toc: {
+          enabled: true
+        },
+        search: {
+          enabled: true
+        }
+      },
+
+      // Features
+      features: {
+        deepLinking: true,
+        fullscreen: true,
+        download: true
+      },
+
+      // Events
+      onReady: (fb) => {
+        console.log('FlipBook ready!', fb);
+        console.log('Total pages:', fb.getPageCount());
+        console.log('Renderer:', fb.getRendererType());
+
+        // Get all buttons
+        const buttons = {
+          prev: document.getElementById('btn-prev'),
+          next: document.getElementById('btn-next'),
+          fullscreen: document.getElementById('btn-fullscreen'),
+          webgl: document.getElementById('btn-webgl'),
+          css: document.getElementById('btn-css'),
+          swipe: document.getElementById('btn-swipe'),
+          transFade: document.getElementById('btn-trans-fade'),
+          transSlide: document.getElementById('btn-trans-slide'),
+          transFlip: document.getElementById('btn-trans-flip'),
+          transNone: document.getElementById('btn-trans-none'),
+          single: document.getElementById('btn-single'),
+          double: document.getElementById('btn-double')
+        };
+
+        // Enable all buttons
+        Object.values(buttons).forEach(btn => btn.disabled = false);
+
+        // Navigation
+        buttons.prev.addEventListener('click', () => fb.prevPage());
+        buttons.next.addEventListener('click', () => fb.nextPage());
+        buttons.fullscreen.addEventListener('click', () => fb.toggleFullscreen());
+
+        // Renderer switching
+        const rendererButtons = [buttons.webgl, buttons.css, buttons.swipe];
+        const setActiveRenderer = (activeBtn) => {
+          rendererButtons.forEach(btn => btn.classList.remove('active'));
+          activeBtn.classList.add('active');
+        };
+
+        buttons.webgl.addEventListener('click', async () => {
+          if (await fb.switchRenderer('webgl')) setActiveRenderer(buttons.webgl);
+        });
+        buttons.css.addEventListener('click', async () => {
+          if (await fb.switchRenderer('css')) setActiveRenderer(buttons.css);
+        });
+        buttons.swipe.addEventListener('click', async () => {
+          if (await fb.switchRenderer('swipe')) setActiveRenderer(buttons.swipe);
+        });
+
+        // Transition switching
+        const transButtons = [buttons.transFade, buttons.transSlide, buttons.transFlip, buttons.transNone];
+        const setActiveTransition = (activeBtn, type) => {
+          transButtons.forEach(btn => btn.classList.remove('active'));
+          activeBtn.classList.add('active');
+          fb.setTransition(type);
+          console.log('Transition set to:', type);
+        };
+
+        buttons.transFade.addEventListener('click', () => setActiveTransition(buttons.transFade, 'fade'));
+        buttons.transSlide.addEventListener('click', () => setActiveTransition(buttons.transSlide, 'slide'));
+        buttons.transFlip.addEventListener('click', () => setActiveTransition(buttons.transFlip, 'flip'));
+        buttons.transNone.addEventListener('click', () => setActiveTransition(buttons.transNone, 'none'));
+
+        // Page mode switching (single/double)
+        const pageModeButtons = [buttons.single, buttons.double];
+        const setActivePageMode = (activeBtn, mode) => {
+          pageModeButtons.forEach(btn => btn.classList.remove('active'));
+          activeBtn.classList.add('active');
+          fb.setDisplayMode(mode);
+          console.log('Display mode set to:', mode);
+        };
+
+        buttons.single.addEventListener('click', () => setActivePageMode(buttons.single, 'single'));
+        buttons.double.addEventListener('click', () => setActivePageMode(buttons.double, 'double'));
+      },
+
+      onPageChange: ({ page, totalPages }) => {
+        console.log(`Page ${page} of ${totalPages}`);
+      },
+
+      onError: (error) => {
+        console.error('FlipBook error:', error);
+      }
+    });
+
+  </script>
+
+  <footer class="demo-footer">
+    <a href="./docs-api.html">API Reference</a> ·
+    <a href="./docs-options.html">Options</a> ·
+    <a href="./docs-events.html">Events</a> ·
+    <a href="./docs-troubleshooting.html">Troubleshooting</a>
+  </footer>
+</body>
+</html>

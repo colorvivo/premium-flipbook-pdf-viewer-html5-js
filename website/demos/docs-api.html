@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Reference - Premium FlipBook Documentation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+    .doc-header {
+      padding: 30px 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(37,99,235,0.2) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .doc-header h1 { font-size: 32px; margin-bottom: 8px; color: #fff; }
+    .doc-header p { color: rgba(255,255,255,0.7); font-size: 16px; }
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+    .doc-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px;
+      flex-wrap: wrap;
+      background: rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .doc-nav a {
+      color: #93c5fd;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .doc-nav a:hover { background: rgba(255,255,255,0.1); }
+    .doc-nav a.active { background: #2563eb; color: #fff; }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    h2 {
+      font-size: 24px;
+      color: #a5b4fc;
+      margin: 40px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    h2:first-child { margin-top: 0; }
+    h3 {
+      font-size: 18px;
+      color: #c4b5fd;
+      margin: 30px 0 12px;
+    }
+    h4 {
+      font-size: 16px;
+      color: #93c5fd;
+      margin: 24px 0 10px;
+      font-family: 'Monaco', 'Menlo', monospace;
+    }
+    p { margin-bottom: 12px; color: #cbd5e1; }
+    ul { margin: 12px 0 12px 24px; }
+    li { margin-bottom: 8px; color: #cbd5e1; }
+    strong { color: #e2e8f0; }
+    code {
+      background: rgba(255,255,255,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 13px;
+      color: #fbbf24;
+    }
+    pre {
+      background: #1e1e2e;
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      margin: 12px 0;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      color: #e2e8f0;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .method-sig {
+      background: #1e293b;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin: 16px 0 12px;
+      border-left: 3px solid #3b82f6;
+    }
+    .method-sig code { color: #60a5fa; background: none; padding: 0; }
+    .params { margin: 12px 0; }
+    .params li { margin-bottom: 6px; }
+    .returns { color: #10b981; }
+    .doc-footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 60px;
+    }
+    .doc-footer a { color: #93c5fd; text-decoration: none; }
+    .doc-footer a:hover { text-decoration: underline; }
+      /* Site Header */
+    .site-header { background: #0a0a12; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+    .site-header .logo { color: #fff; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .site-header .logo span { color: #3b82f6; }
+    .site-header nav { display: flex; gap: 20px; align-items: center; }
+    .site-header nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .site-header nav a:hover { color: #fff; }
+    .site-header nav a.cta { background: #2563eb; padding: 6px 12px; border-radius: 6px; color: #fff; }
+    /* Full Footer */
+    .full-footer { padding: 60px 0; border-top: 1px solid rgba(255,255,255,0.05); background: #0a0a12; }
+    .full-footer .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } }
+    .footer-brand h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; color: #fff; }
+    .footer-brand p { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
+    .footer-social { display: flex; gap: 12px; }
+    .footer-social a { width: 40px; height: 40px; background: #1e1e2e; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; color: #fff; text-decoration: none; }
+    .footer-social a:hover { background: #2563eb; }
+    .footer-links h4 { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .footer-links ul { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a { color: #94a3b8; font-size: 14px; transition: color 0.2s; text-decoration: none; }
+    .footer-links a:hover { color: #fff; }
+    .footer-bottom { margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; color: #94a3b8; font-size: 14px; }
+    .footer-bottom a { color: #3b82f6; text-decoration: none; }
+    .footer-bottom a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="../index.html" class="logo">Premium <span>FlipBook</span></a>
+    <nav>
+      <a href="../index.html#features">Features</a>
+      <a href="../index.html#renderers">Renderers</a>
+      <a href="./index.html">Demos</a>
+      <a href="./docs-api.html">API</a>
+      <a href="./docs-usage.html">Guide</a>
+      <a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank">GitHub</a>
+      <a href="../index.html#download" class="cta">Download</a>
+    </nav>
+  </header>
+
+  <div class="doc-header">
+    <h1>API Reference</h1>
+    <p>Complete API documentation for Premium FlipBook</p>
+  </div>
+
+  <nav class="doc-nav">
+    <a href="../index.html">Website</a>
+    <a href="../index.html#renderers">Renderers</a>
+      <a href="./index.html">Demos</a>
+    <a href="./docs-api.html" class="active">API Reference</a>
+    <a href="./docs-options.html">Options</a>
+    <a href="./docs-usage.html">Usage Guide</a>
+    <a href="./docs-events.html">Events</a>
+    <a href="./docs-troubleshooting.html">Troubleshooting</a>
+  </nav>
+
+  <div class="container">
+    <h2>Constructor</h2>
+    <div class="method-sig"><code>new PremiumFlipBook(options)</code></div>
+    <p>Creates a new flipbook instance. See <a href="./docs-options.html">Options Reference</a> for all options.</p>
+
+    <h2>Methods</h2>
+
+    <h3>Navigation</h3>
+
+    <h4>goToPage(page)</h4>
+    <p>Navigate to a specific page.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>page</code> (number) - Page number (1-based)</li>
+      <li><strong>Returns:</strong> <span class="returns"><code>Promise&lt;boolean&gt;</code></span> - Success status</li>
+    </ul>
+    <pre><code>await flipbook.goToPage(5);</code></pre>
+
+    <h4>nextPage()</h4>
+    <p>Navigate to the next page.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>Promise&lt;boolean&gt;</code></span> - Success status</li>
+    </ul>
+    <pre><code>await flipbook.nextPage();</code></pre>
+
+    <h4>prevPage()</h4>
+    <p>Navigate to the previous page.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>Promise&lt;boolean&gt;</code></span> - Success status</li>
+    </ul>
+    <pre><code>await flipbook.prevPage();</code></pre>
+
+    <h4>firstPage()</h4>
+    <p>Navigate to the first page.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>Promise&lt;boolean&gt;</code></span> - Success status</li>
+    </ul>
+    <pre><code>await flipbook.firstPage();</code></pre>
+
+    <h4>lastPage()</h4>
+    <p>Navigate to the last page.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>Promise&lt;boolean&gt;</code></span> - Success status</li>
+    </ul>
+    <pre><code>await flipbook.lastPage();</code></pre>
+
+    <h4>setTransition(type)</h4>
+    <p>Set the page transition effect.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>type</code> (string) - Transition type: <code>'fade'</code>, <code>'slide'</code>, <code>'flip'</code>, <code>'none'</code></li>
+    </ul>
+    <pre><code>flipbook.setTransition('slide');
+flipbook.setTransition('flip');
+flipbook.setTransition('fade');
+flipbook.setTransition('none');</code></pre>
+
+    <h4>getTransition()</h4>
+    <p>Get current transition type.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>string</code></span> - Current transition type</li>
+    </ul>
+    <pre><code>const transition = flipbook.getTransition();</code></pre>
+
+    <h4>setDisplayMode(mode)</h4>
+    <p>Set display mode (single or double page).</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>mode</code> (string) - Display mode: <code>'single'</code> or <code>'double'</code></li>
+      <li><strong>Returns:</strong> <span class="returns"><code>boolean</code></span> - Success status</li>
+    </ul>
+    <pre><code>flipbook.setDisplayMode('single');  // Show one page
+flipbook.setDisplayMode('double');  // Show two pages side by side</code></pre>
+
+    <h3>Zoom</h3>
+
+    <h4>setZoom(level)</h4>
+    <p>Set the zoom level.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>level</code> (number) - Zoom level (1 = 100%)</li>
+      <li><strong>Returns:</strong> <span class="returns"><code>boolean</code></span> - Success status</li>
+    </ul>
+    <pre><code>flipbook.setZoom(2);  // 200%</code></pre>
+
+    <h4>zoomIn(step?)</h4>
+    <p>Increase zoom level.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>step</code> (number, optional) - Zoom increment (default: 0.25)</li>
+      <li><strong>Returns:</strong> <span class="returns"><code>boolean</code></span> - Success status</li>
+    </ul>
+    <pre><code>flipbook.zoomIn();
+flipbook.zoomIn(0.5);  // Custom step</code></pre>
+
+    <h4>zoomOut(step?)</h4>
+    <p>Decrease zoom level.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>step</code> (number, optional) - Zoom decrement (default: 0.25)</li>
+      <li><strong>Returns:</strong> <span class="returns"><code>boolean</code></span> - Success status</li>
+    </ul>
+    <pre><code>flipbook.zoomOut();</code></pre>
+
+    <h4>resetZoom()</h4>
+    <p>Reset zoom to 1x and clear pan.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>boolean</code></span> - Success status</li>
+    </ul>
+    <pre><code>flipbook.resetZoom();</code></pre>
+
+    <h3>UI Controls</h3>
+
+    <h4>toggleThumbnails(show?)</h4>
+    <p>Toggle thumbnail panel visibility.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>show</code> (boolean, optional) - Force show/hide</li>
+    </ul>
+    <pre><code>flipbook.toggleThumbnails();      // Toggle
+flipbook.toggleThumbnails(true);  // Show
+flipbook.toggleThumbnails(false); // Hide</code></pre>
+
+    <h4>toggleTOC(show?)</h4>
+    <p>Toggle table of contents panel visibility.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>show</code> (boolean, optional) - Force show/hide</li>
+    </ul>
+    <pre><code>flipbook.toggleTOC();</code></pre>
+
+    <h4>toggleSearch(show?)</h4>
+    <p>Toggle search panel visibility.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>show</code> (boolean, optional) - Force show/hide</li>
+    </ul>
+    <pre><code>flipbook.toggleSearch();</code></pre>
+
+    <h4>toggleFullscreen()</h4>
+    <p>Toggle fullscreen mode.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>Promise&lt;boolean&gt;</code></span> - Success status</li>
+    </ul>
+    <pre><code>await flipbook.toggleFullscreen();</code></pre>
+
+    <h3>Search</h3>
+
+    <h4>search(query)</h4>
+    <p>Search for text in the document.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>query</code> (string) - Search query</li>
+      <li><strong>Returns:</strong> <span class="returns"><code>Promise&lt;Object[]&gt;</code></span> - Array of search results</li>
+    </ul>
+    <pre><code>const results = await flipbook.search('hello');
+// [{ page: 3, context: '...hello world...', highlight: {...} }]</code></pre>
+
+    <h4>clearSearch()</h4>
+    <p>Clear search results.</p>
+    <pre><code>flipbook.clearSearch();</code></pre>
+
+    <h3>Autoplay</h3>
+
+    <h4>startAutoplay(interval?)</h4>
+    <p>Start automatic page flipping.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>interval</code> (number, optional) - Interval in ms</li>
+    </ul>
+    <pre><code>flipbook.startAutoplay();
+flipbook.startAutoplay(3000);  // 3 seconds</code></pre>
+
+    <h4>stopAutoplay()</h4>
+    <p>Stop automatic page flipping.</p>
+    <pre><code>flipbook.stopAutoplay();</code></pre>
+
+    <h4>toggleAutoplay()</h4>
+    <p>Toggle autoplay state.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>boolean</code></span> - New autoplay state</li>
+    </ul>
+    <pre><code>const isPlaying = flipbook.toggleAutoplay();</code></pre>
+
+    <h3>Lightbox</h3>
+
+    <h4>openLightbox(page?)</h4>
+    <p>Open flipbook in lightbox mode.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>page</code> (number, optional) - Page to show</li>
+    </ul>
+    <pre><code>flipbook.openLightbox();
+flipbook.openLightbox(5);  // Open to page 5</code></pre>
+
+    <h4>closeLightbox()</h4>
+    <p>Close lightbox.</p>
+    <pre><code>flipbook.closeLightbox();</code></pre>
+
+    <h3>State Getters</h3>
+
+    <h4>getCurrentPage()</h4>
+    <p>Get current page number.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>number</code></span></li>
+    </ul>
+    <pre><code>const page = flipbook.getCurrentPage();</code></pre>
+
+    <h4>getPageCount()</h4>
+    <p>Get total number of pages.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>number</code></span></li>
+    </ul>
+    <pre><code>const total = flipbook.getPageCount();</code></pre>
+
+    <h4>getZoom()</h4>
+    <p>Get current zoom level.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>number</code></span></li>
+    </ul>
+    <pre><code>const zoom = flipbook.getZoom();</code></pre>
+
+    <h4>getDisplayMode()</h4>
+    <p>Get current display mode.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>string</code></span> - 'single' or 'double'</li>
+    </ul>
+    <pre><code>const mode = flipbook.getDisplayMode();</code></pre>
+
+    <h4>getRendererType()</h4>
+    <p>Get current renderer type.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>string</code></span> - 'webgl', 'css', or 'swipe'</li>
+    </ul>
+    <pre><code>const renderer = flipbook.getRendererType();</code></pre>
+
+    <h4>isFlipping()</h4>
+    <p>Check if a flip animation is in progress.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>boolean</code></span></li>
+    </ul>
+    <pre><code>if (!flipbook.isFlipping()) {
+  flipbook.nextPage();
+}</code></pre>
+
+    <h4>isLoading()</h4>
+    <p>Check if flipbook is still loading.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>boolean</code></span></li>
+    </ul>
+    <pre><code>if (flipbook.isLoading()) {
+  showSpinner();
+}</code></pre>
+
+    <h4>getState()</h4>
+    <p>Get complete state object.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>Object</code></span></li>
+    </ul>
+    <pre><code>const state = flipbook.getState();</code></pre>
+
+    <h3>Renderer</h3>
+
+    <h4>switchRenderer(type)</h4>
+    <p>Switch to a different renderer.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>type</code> (string) - 'webgl', 'css', or 'swipe'</li>
+      <li><strong>Returns:</strong> <span class="returns"><code>Promise&lt;boolean&gt;</code></span> - Success status</li>
+    </ul>
+    <pre><code>await flipbook.switchRenderer('css');</code></pre>
+
+    <h3>Source</h3>
+
+    <h4>getPage(page, scale?)</h4>
+    <p>Get page content.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong>
+        <ul>
+          <li><code>page</code> (number) - Page number</li>
+          <li><code>scale</code> (number, optional) - Render scale (default: 1)</li>
+        </ul>
+      </li>
+      <li><strong>Returns:</strong> <span class="returns"><code>Promise&lt;HTMLCanvasElement|HTMLImageElement&gt;</code></span></li>
+    </ul>
+    <pre><code>const canvas = await flipbook.getPage(1, 2);  // Page 1 at 2x</code></pre>
+
+    <h4>getThumbnail(page)</h4>
+    <p>Get page thumbnail.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>page</code> (number) - Page number</li>
+      <li><strong>Returns:</strong> <span class="returns"><code>Promise&lt;HTMLCanvasElement|HTMLImageElement&gt;</code></span></li>
+    </ul>
+    <pre><code>const thumb = await flipbook.getThumbnail(1);</code></pre>
+
+    <h4>getTableOfContents()</h4>
+    <p>Get table of contents.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>Object[]</code></span></li>
+    </ul>
+    <pre><code>const toc = flipbook.getTableOfContents();
+// [{ title: 'Chapter 1', page: 1, level: 0, children: [] }]</code></pre>
+
+    <h3>Lifecycle</h3>
+
+    <h4>updateOptions(options)</h4>
+    <p>Update flipbook options.</p>
+    <ul class="params">
+      <li><strong>Parameters:</strong> <code>options</code> (Object) - Options to update</li>
+    </ul>
+    <pre><code>flipbook.updateOptions({
+  zoom: { max: 5 }
+});</code></pre>
+
+    <h4>refresh()</h4>
+    <p>Force re-render.</p>
+    <ul class="params">
+      <li><strong>Returns:</strong> <span class="returns"><code>Promise</code></span></li>
+    </ul>
+    <pre><code>await flipbook.refresh();</code></pre>
+
+    <h4>destroy()</h4>
+    <p>Clean up and remove flipbook.</p>
+    <pre><code>flipbook.destroy();</code></pre>
+
+    <h2>Static Methods</h2>
+
+    <h4>PremiumFlipBook.version</h4>
+    <p>Get library version.</p>
+    <pre><code>console.log(PremiumFlipBook.version);  // '1.0.0'</code></pre>
+
+    <h4>PremiumFlipBook.getBrowserInfo()</h4>
+    <p>Get browser capabilities.</p>
+    <pre><code>const info = PremiumFlipBook.getBrowserInfo();</code></pre>
+
+    <h4>PremiumFlipBook.isWebGLSupported()</h4>
+    <p>Check WebGL support.</p>
+    <pre><code>if (PremiumFlipBook.isWebGLSupported()) {
+  // Use WebGL renderer
+}</code></pre>
+
+    <h4>PremiumFlipBook.isCSS3DSupported()</h4>
+    <p>Check CSS 3D transform support.</p>
+    <pre><code>if (PremiumFlipBook.isCSS3DSupported()) {
+  // Use CSS renderer
+}</code></pre>
+  </div>
+
+  <div class="doc-footer">
+    <p><a href="./index.html">&larr; Back to Demos</a> | <a href="./docs-options.html">Next: Options Reference &rarr;</a></p>
+  </div>
+  <!-- Full Footer -->
+  <footer class="full-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Premium FlipBook</h3>
+          <p>Professional PDF & Image viewer with realistic 3D page flip animations. Pure JavaScript, no dependencies.</p>
+          <div class="footer-social">
+            <a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank" title="GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../index.html#features">Features</a></li>
+            <li><a href="../index.html#renderers">Renderers</a></li>
+            <li><a href="../index.html#demo">Demo</a></li>
+            <li><a href="../index.html#download">Download</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="./docs-usage.html">Getting Started</a></li>
+            <li><a href="./docs-api.html">API Reference</a></li>
+            <li><a href="./docs-options.html">Options</a></li>
+            <li><a href="./docs-events.html">Events</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="./index.html">Demo Gallery</a></li>
+            <li><a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank">GitHub</a></li>
+            <li><a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer/issues" target="_blank">Report Issue</a></li>
+            <li><a href="./docs-troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Premium FlipBook by <a href="https://colorvivo.com/" target="_blank">Color Vivo Internet</a>. Released under MIT License.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

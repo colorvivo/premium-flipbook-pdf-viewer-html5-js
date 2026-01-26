@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usage Guide - Premium FlipBook Documentation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+    .doc-header {
+      padding: 30px 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(37,99,235,0.2) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .doc-header h1 { font-size: 32px; margin-bottom: 8px; color: #fff; }
+    .doc-header p { color: rgba(255,255,255,0.7); font-size: 16px; }
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+    .doc-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px;
+      flex-wrap: wrap;
+      background: rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .doc-nav a {
+      color: #93c5fd;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .doc-nav a:hover { background: rgba(255,255,255,0.1); }
+    .doc-nav a.active { background: #2563eb; color: #fff; }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    h2 {
+      font-size: 24px;
+      color: #a5b4fc;
+      margin: 40px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    h2:first-child { margin-top: 0; }
+    h3 {
+      font-size: 18px;
+      color: #c4b5fd;
+      margin: 30px 0 12px;
+    }
+    p { margin-bottom: 12px; color: #cbd5e1; }
+    code {
+      background: rgba(255,255,255,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 13px;
+      color: #fbbf24;
+    }
+    pre {
+      background: #1e1e2e;
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      margin: 12px 0 24px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      color: #e2e8f0;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .doc-footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 60px;
+    }
+    .doc-footer a { color: #93c5fd; text-decoration: none; }
+    .doc-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <a href="./index.html" class="back-link">&larr; Back to Demos</a>
+
+  <div class="doc-header">
+    <h1>Usage Guide</h1>
+    <p>Learn how to use Premium FlipBook in your projects</p>
+  </div>
+
+  <nav class="doc-nav">
+    <a href="./docs-api.html">API Reference</a>
+    <a href="./docs-options.html">Options</a>
+    <a href="./docs-usage.html" class="active">Usage Guide</a>
+    <a href="./docs-events.html">Events</a>
+    <a href="./docs-troubleshooting.html">Troubleshooting</a>
+  </nav>
+
+  <div class="container">
+    <h2>Installation</h2>
+
+    <h3>NPM</h3>
+    <pre><code>npm install premium-flipbook-pdf-viewer</code></pre>
+
+    <h3>CDN</h3>
+    <pre><code>&lt;!-- CSS --&gt;
+&lt;link rel="stylesheet" href="https://unpkg.com/premium-flipbook-pdf-viewer/dist/premium-flipbook.css"&gt;
+
+&lt;!-- JavaScript (UMD) --&gt;
+&lt;script src="https://unpkg.com/premium-flipbook-pdf-viewer/dist/premium-flipbook.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Or ES Module --&gt;
+&lt;script type="module"&gt;
+  import PremiumFlipBook from 'https://unpkg.com/premium-flipbook-pdf-viewer/dist/premium-flipbook.esm.js';
+&lt;/script&gt;</code></pre>
+
+    <h2>Basic Usage</h2>
+
+    <h3>Using Images</h3>
+    <p>The simplest way to use PremiumFlipBook is with an array of images:</p>
+    <pre><code>&lt;div id="flipbook" style="width: 100%; height: 600px;"&gt;&lt;/div&gt;
+
+&lt;script type="module"&gt;
+  import PremiumFlipBook from 'premium-flipbook-pdf-viewer';
+
+  const flipbook = new PremiumFlipBook({
+    container: '#flipbook',
+    images: [
+      'images/page1.jpg',
+      'images/page2.jpg',
+      'images/page3.jpg',
+      'images/page4.jpg'
+    ]
+  });
+&lt;/script&gt;</code></pre>
+
+    <h3>Using PDF</h3>
+    <p>To load a PDF file, you need PDF.js:</p>
+    <pre><code>&lt;div id="flipbook" style="width: 100%; height: 600px;"&gt;&lt;/div&gt;
+
+&lt;!-- PDF.js is loaded automatically when needed --&gt;
+&lt;script type="module"&gt;
+  import PremiumFlipBook from 'premium-flipbook-pdf-viewer';
+
+  const flipbook = new PremiumFlipBook({
+    container: '#flipbook',
+    pdfUrl: 'documents/magazine.pdf'
+  });
+&lt;/script&gt;</code></pre>
+
+    <h3>Using Optimized Source</h3>
+    <p>For maximum performance, use pre-rendered images with a JSON config:</p>
+    <pre><code>const flipbook = new PremiumFlipBook({
+  container: '#flipbook',
+  optimizedImages: {
+    jsonUrl: 'magazine/config.json'
+  }
+});</code></pre>
+
+    <h2>Renderer Selection</h2>
+
+    <h3>Automatic (Recommended)</h3>
+    <pre><code>new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages,
+  renderMode: 'auto'  // Automatically selects best renderer
+});</code></pre>
+
+    <h3>Force WebGL</h3>
+    <pre><code>new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages,
+  renderMode: 'webgl'  // Requires Three.js
+});</code></pre>
+
+    <h3>Force CSS</h3>
+    <pre><code>new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages,
+  renderMode: 'css'  // Works everywhere
+});</code></pre>
+
+    <h3>Force Swipe</h3>
+    <pre><code>new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages,
+  renderMode: 'swipe'  // Best for mobile
+});</code></pre>
+
+    <h2>Responsive Design</h2>
+
+    <h3>Auto Single Page Mode</h3>
+    <pre><code>new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages,
+  singlePageMode: 'auto',         // Switch based on viewport
+  singlePageBreakpoint: 768       // Switch below this width
+});</code></pre>
+
+    <h3>Always Single Page</h3>
+    <pre><code>new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages,
+  singlePageMode: 'always'
+});</code></pre>
+
+    <h2>Customizing the Toolbar</h2>
+    <pre><code>new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages,
+  ui: {
+    toolbar: {
+      enabled: true,
+      position: 'bottom',  // 'top' or 'bottom'
+      buttons: [
+        'first',
+        'prev',
+        'pageInput',
+        'next',
+        'last',
+        'separator',
+        'zoomOut',
+        'zoomIn',
+        'separator',
+        'thumbnails',
+        'toc',
+        'search',
+        'separator',
+        'fullscreen',
+        'download'
+      ]
+    }
+  }
+});</code></pre>
+
+    <h2>Events</h2>
+    <pre><code>const flipbook = new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages
+});
+
+// Page changed
+flipbook.on('pageChange', ({ page, previousPage, totalPages }) => {
+  console.log(`Page ${page} of ${totalPages}`);
+});
+
+// Flip animation started
+flipbook.on('flipStart', ({ direction, fromPage }) => {
+  console.log(`Flipping ${direction} from page ${fromPage}`);
+});
+
+// Flip animation ended
+flipbook.on('flipEnd', ({ page }) => {
+  console.log(`Landed on page ${page}`);
+});
+
+// Zoom changed
+flipbook.on('zoomChange', ({ zoom, previousZoom }) => {
+  console.log(`Zoom: ${zoom * 100}%`);
+});
+
+// Ready
+flipbook.on('ready', ({ flipbook }) => {
+  console.log('FlipBook is ready!');
+});
+
+// Error
+flipbook.on('error', (error) => {
+  console.error('FlipBook error:', error);
+});</code></pre>
+
+    <h2>Lightbox Mode</h2>
+    <pre><code>// Option 1: Trigger with selector
+new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages,
+  features: {
+    lightbox: true,
+    lightboxTrigger: '.open-flipbook'  // CSS selector for trigger elements
+  }
+});
+
+// Option 2: Open programmatically
+const flipbook = new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages,
+  features: { lightbox: true }
+});
+
+// Open to page 5
+document.querySelector('#openBtn').addEventListener('click', () => {
+  flipbook.openLightbox(5);
+});</code></pre>
+
+    <h2>Page Transitions</h2>
+    <p>Control how pages animate when flipping:</p>
+    <pre><code>const flipbook = new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages
+});
+
+// Set transition type dynamically
+flipbook.setTransition('fade');   // Smooth fade (default)
+flipbook.setTransition('slide');  // 3D slide with perspective
+flipbook.setTransition('flip');   // Classic page flip rotation
+flipbook.setTransition('none');   // Instant change
+
+// Get current transition
+const current = flipbook.getTransition();</code></pre>
+
+    <h2>Display Mode</h2>
+    <p>Switch between single and double page display:</p>
+    <pre><code>// Set via options
+new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages,
+  singlePageMode: 'always'  // 'auto', 'always', 'never'
+});
+
+// Or change dynamically
+flipbook.setDisplayMode('single');  // Show one page
+flipbook.setDisplayMode('double');  // Show two pages side by side
+
+// Get current mode
+const mode = flipbook.getDisplayMode();  // 'single' or 'double'</code></pre>
+
+    <h2>RTL (Right-to-Left) Support</h2>
+    <pre><code>new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages,
+  rtl: true  // Enable RTL mode
+});</code></pre>
+
+    <h2>Autoplay</h2>
+    <pre><code>new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages,
+  features: {
+    autoplay: {
+      enabled: true,
+      interval: 5000,      // 5 seconds
+      pauseOnHover: true,  // Pause when mouse is over
+      loop: true           // Loop back to start
+    }
+  }
+});
+
+// Control programmatically
+flipbook.startAutoplay();
+flipbook.stopAutoplay();
+flipbook.toggleAutoplay();</code></pre>
+
+    <h2>Sound Effects</h2>
+    <pre><code>new PremiumFlipBook({
+  container: '#flipbook',
+  images: myImages,
+  features: {
+    sound: {
+      enabled: true,
+      flipSound: 'sounds/page-flip.mp3',
+      volume: 0.5
+    }
+  }
+});</code></pre>
+
+    <h2>Cleanup</h2>
+    <p>Always destroy the flipbook when removing it from the DOM:</p>
+    <pre><code>const flipbook = new PremiumFlipBook({...});
+
+// Later, when cleaning up:
+flipbook.destroy();</code></pre>
+  </div>
+
+  <div class="doc-footer">
+    <p><a href="./docs-options.html">&larr; Previous: Options</a> | <a href="./docs-events.html">Next: Events Reference &rarr;</a></p>
+  </div>
+</body>
+</html>

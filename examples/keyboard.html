@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keyboard Navigation - Premium FlipBook Demo</title>
+  <link rel="stylesheet" href="../dist/premium-flipbook.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #fff;
+    }
+    .demo-header {
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(37,99,235,0.2) 0%, transparent 100%);
+    }
+    .demo-header h1 { font-size: 24px; margin-bottom: 8px; }
+    .demo-header p { color: rgba(255,255,255,0.7); font-size: 14px; }
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+    #flipbook-container {
+      width: 100%;
+      height: 55vh;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .keyboard-hints {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    .keyboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .key-group {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .key-group h4 {
+      font-size: 13px;
+      color: #a5b4fc;
+      margin-bottom: 12px;
+    }
+    .key-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .key {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      height: 28px;
+      padding: 0 8px;
+      background: #2d2d3f;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 11px;
+      color: #fff;
+    }
+    .key-action {
+      color: rgba(255,255,255,0.6);
+    }
+    .key-indicator {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(37, 99, 235, 0.9);
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .key-indicator.visible { opacity: 1; }
+    .code-section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .code-section h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #a5b4fc;
+    }
+    .code-block {
+      background: #1e1e2e;
+      border-radius: 12px;
+      padding: 20px;
+      overflow-x: auto;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .code-block .comment { color: #6b7280; }
+    .code-block .keyword { color: #c792ea; }
+    .code-block .string { color: #c3e88d; }
+    .code-block .property { color: #82aaff; }
+      /* Site Header */
+    .site-header { background: #0a0a12; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .site-header .logo { color: #fff; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .site-header .logo span { color: #3b82f6; }
+    .site-header nav { display: flex; gap: 20px; align-items: center; }
+    .site-header nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; }
+    .site-header nav a:hover { color: #fff; }
+    .site-footer { background: #0a0a12; border-top: 1px solid rgba(255,255,255,0.1); padding: 20px; text-align: center; margin-top: 40px; }
+    .site-footer p { color: rgba(255,255,255,0.5); font-size: 13px; }
+    .site-footer a { color: #3b82f6; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <a href="./index.html" class="back-link">← Back to Demos</a>
+
+  <div class="demo-header">
+    <h1>Keyboard Navigation</h1>
+    <p>Full keyboard support for accessibility</p>
+  </div>
+
+  <div id="flipbook-container"></div>
+
+  <div class="keyboard-hints">
+    <div class="keyboard-grid">
+      <div class="key-group">
+        <h4>Navigation</h4>
+        <div class="key-row">
+          <span class="key">←</span>
+          <span class="key">→</span>
+          <span class="key-action">Previous / Next page</span>
+        </div>
+        <div class="key-row">
+          <span class="key">Page Up</span>
+          <span class="key">Page Down</span>
+          <span class="key-action">Prev / Next</span>
+        </div>
+        <div class="key-row">
+          <span class="key">Home</span>
+          <span class="key">End</span>
+          <span class="key-action">First / Last page</span>
+        </div>
+      </div>
+
+      <div class="key-group">
+        <h4>Zoom</h4>
+        <div class="key-row">
+          <span class="key">+</span>
+          <span class="key">-</span>
+          <span class="key-action">Zoom in / out</span>
+        </div>
+        <div class="key-row">
+          <span class="key">0</span>
+          <span class="key-action">Reset zoom</span>
+        </div>
+        <div class="key-row">
+          <span class="key">Ctrl</span><span class="key">Scroll</span>
+          <span class="key-action">Zoom</span>
+        </div>
+      </div>
+
+      <div class="key-group">
+        <h4>Features</h4>
+        <div class="key-row">
+          <span class="key">F</span>
+          <span class="key-action">Toggle fullscreen</span>
+        </div>
+        <div class="key-row">
+          <span class="key">T</span>
+          <span class="key-action">Toggle thumbnails</span>
+        </div>
+        <div class="key-row">
+          <span class="key">Esc</span>
+          <span class="key-action">Exit fullscreen / Close panels</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-indicator" id="key-indicator"></div>
+
+  <div class="code-section">
+    <h2>Code Example</h2>
+    <pre class="code-block"><span class="keyword">const</span> flipbook = <span class="keyword">new</span> PremiumFlipBook({
+  <span class="property">container</span>: <span class="string">'#flipbook-container'</span>,
+  <span class="property">pdfUrl</span>: <span class="string">'./document.pdf'</span>,
+
+  <span class="property">ui</span>: {
+    <span class="property">navigation</span>: {
+      <span class="property">keyboard</span>: <span class="keyword">true</span>,        <span class="comment">// Enable keyboard navigation</span>
+      <span class="property">arrows</span>: <span class="keyword">true</span>,          <span class="comment">// Show arrow buttons</span>
+      <span class="property">clickToFlip</span>: <span class="keyword">true</span>,     <span class="comment">// Click edges to flip</span>
+      <span class="property">mouseWheel</span>: <span class="keyword">false</span>      <span class="comment">// Scroll to navigate</span>
+    }
+  },
+
+  <span class="comment">// Accessibility options</span>
+  <span class="property">accessibility</span>: {
+    <span class="property">enabled</span>: <span class="keyword">true</span>,
+    <span class="property">ariaLabels</span>: <span class="keyword">true</span>,       <span class="comment">// Add ARIA labels</span>
+    <span class="property">focusIndicator</span>: <span class="keyword">true</span>,  <span class="comment">// Visual focus ring</span>
+    <span class="property">announcePageChange</span>: <span class="keyword">true</span> <span class="comment">// Screen reader announcements</span>
+  }
+});</pre>
+  </div>
+
+    }
+  </script>
+  <script src="../dist/premium-flipbook.min.js"></script>
+  <script>
+
+    const keyIndicator = document.getElementById('key-indicator');
+    let hideTimeout;
+
+    function showKeyPress(key) {
+      keyIndicator.textContent = `Key pressed: ${key}`;
+      keyIndicator.classList.add('visible');
+      clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(() => {
+        keyIndicator.classList.remove('visible');
+      }, 1000);
+    }
+
+    const flipbook = new PremiumFlipBook({
+      container: '#flipbook-container',
+      images: [
+        './assets/pages/page1.svg',
+        './assets/pages/page2.svg',
+        './assets/pages/page3.svg',
+        './assets/pages/page4.svg',
+        './assets/pages/page5.svg',
+        './assets/pages/page6.svg',
+        './assets/pages/page7.svg',
+        './assets/pages/page8.svg'
+      ],
+      renderMode: 'css',
+      ui: {
+        toolbar: { enabled: true },
+        thumbnails: { enabled: true },
+        navigation: {
+          keyboard: true,
+          arrows: true,
+          clickToFlip: true
+        }
+      },
+      accessibility: {
+        enabled: true,
+        ariaLabels: true,
+        focusIndicator: true
+      }
+    });
+
+    // Show key press feedback
+    document.addEventListener('keydown', (e) => {
+      const keyMap = {
+        'ArrowLeft': '← Previous',
+        'ArrowRight': '→ Next',
+        'Home': 'Home - First page',
+        'End': 'End - Last page',
+        'PageUp': 'Page Up',
+        'PageDown': 'Page Down',
+        'f': 'F - Fullscreen',
+        'F': 'F - Fullscreen',
+        't': 'T - Thumbnails',
+        'T': 'T - Thumbnails',
+        '+': '+ Zoom In',
+        '=': '+ Zoom In',
+        '-': '- Zoom Out',
+        '0': '0 Reset Zoom',
+        'Escape': 'Esc - Close'
+      };
+
+      if (keyMap[e.key]) {
+        showKeyPress(keyMap[e.key]);
+      }
+    });
+
+    window.flipbook = flipbook;
+  </script>
+</body>
+</html>

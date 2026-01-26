@@ -1,0 +1,29 @@
+{
+  "name": "pfb-convert",
+  "version": "1.0.0",
+  "description": "CLI tool to convert PDF to optimized images for Premium FlipBook",
+  "bin": {
+    "pfb-convert": "./src/cli.js"
+  },
+  "main": "./src/cli.js",
+  "scripts": {
+    "start": "node src/cli.js"
+  },
+  "keywords": [
+    "pdf",
+    "convert",
+    "images",
+    "flipbook"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "canvas": "^2.11.2",
+    "commander": "^11.1.0",
+    "pdfjs-dist": "^4.0.379",
+    "sharp": "^0.33.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

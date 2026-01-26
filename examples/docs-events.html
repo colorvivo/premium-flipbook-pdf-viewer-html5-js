@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events Reference - Premium FlipBook Documentation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+    .doc-header {
+      padding: 30px 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(37,99,235,0.2) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .doc-header h1 { font-size: 32px; margin-bottom: 8px; color: #fff; }
+    .doc-header p { color: rgba(255,255,255,0.7); font-size: 16px; }
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+    .doc-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px;
+      flex-wrap: wrap;
+      background: rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .doc-nav a {
+      color: #93c5fd;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .doc-nav a:hover { background: rgba(255,255,255,0.1); }
+    .doc-nav a.active { background: #2563eb; color: #fff; }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    h2 {
+      font-size: 24px;
+      color: #a5b4fc;
+      margin: 40px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    h2:first-child { margin-top: 0; }
+    h3 {
+      font-size: 18px;
+      color: #c4b5fd;
+      margin: 30px 0 12px;
+    }
+    h4 {
+      font-size: 16px;
+      color: #93c5fd;
+      margin: 24px 0 10px;
+      font-family: 'Monaco', 'Menlo', monospace;
+    }
+    p { margin-bottom: 12px; color: #cbd5e1; }
+    code {
+      background: rgba(255,255,255,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 13px;
+      color: #fbbf24;
+    }
+    pre {
+      background: #1e1e2e;
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      margin: 12px 0 24px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      color: #e2e8f0;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .doc-footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 60px;
+    }
+    .doc-footer a { color: #93c5fd; text-decoration: none; }
+    .doc-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <a href="./index.html" class="back-link">&larr; Back to Demos</a>
+
+  <div class="doc-header">
+    <h1>Events Reference</h1>
+    <p>Complete list of events emitted by Premium FlipBook</p>
+  </div>
+
+  <nav class="doc-nav">
+    <a href="./docs-api.html">API Reference</a>
+    <a href="./docs-options.html">Options</a>
+    <a href="./docs-usage.html">Usage Guide</a>
+    <a href="./docs-events.html" class="active">Events</a>
+    <a href="./docs-troubleshooting.html">Troubleshooting</a>
+  </nav>
+
+  <div class="container">
+    <h2>Usage</h2>
+    <pre><code>// Subscribe to an event
+flipbook.on('eventName', (data) => {
+  console.log(data);
+});
+
+// Subscribe once
+flipbook.once('eventName', (data) => {
+  console.log('Only called once');
+});
+
+// Unsubscribe
+const handler = (data) => {};
+flipbook.on('eventName', handler);
+flipbook.off('eventName', handler);
+
+// Unsubscribe all
+flipbook.off('eventName');</code></pre>
+
+    <h2>Lifecycle Events</h2>
+
+    <h4>init</h4>
+    <p>Fired when initialization begins.</p>
+    <pre><code>flipbook.on('init', () => {
+  console.log('Initializing...');
+});</code></pre>
+
+    <h4>ready</h4>
+    <p>Fired when flipbook is ready to use.</p>
+    <pre><code>flipbook.on('ready', ({ flipbook }) => {
+  console.log('FlipBook is ready!');
+  console.log('Total pages:', flipbook.getPageCount());
+});</code></pre>
+
+    <h4>destroy</h4>
+    <p>Fired before the flipbook is destroyed.</p>
+    <pre><code>flipbook.on('destroy', () => {
+  console.log('Cleaning up...');
+});</code></pre>
+
+    <h4>error</h4>
+    <p>Fired when an error occurs.</p>
+    <pre><code>flipbook.on('error', (error) => {
+  console.error('Error:', error.message);
+  console.error('Code:', error.code);
+});</code></pre>
+
+    <h2>Page Events</h2>
+
+    <h4>pageChange</h4>
+    <p>Fired when the current page changes.</p>
+    <pre><code>flipbook.on('pageChange', ({ page, previousPage, totalPages }) => {
+  console.log(`Page ${page} of ${totalPages}`);
+});</code></pre>
+
+    <h4>pageLoad</h4>
+    <p>Fired when a page finishes loading.</p>
+    <pre><code>flipbook.on('pageLoad', ({ page }) => {
+  console.log(`Page ${page} loaded`);
+});</code></pre>
+
+    <h4>pageRender</h4>
+    <p>Fired when a page is rendered.</p>
+    <pre><code>flipbook.on('pageRender', ({ page }) => {
+  console.log(`Page ${page} rendered`);
+});</code></pre>
+
+    <h2>Flip Events</h2>
+
+    <h4>flipStart</h4>
+    <p>Fired when a flip animation starts.</p>
+    <pre><code>flipbook.on('flipStart', ({ direction, fromPage }) => {
+  console.log(`Flipping ${direction} from page ${fromPage}`);
+});</code></pre>
+
+    <h4>flipProgress</h4>
+    <p>Fired during flip animation.</p>
+    <pre><code>flipbook.on('flipProgress', ({ progress }) => {
+  console.log(`Flip progress: ${progress * 100}%`);
+});</code></pre>
+
+    <h4>flipEnd</h4>
+    <p>Fired when a flip animation completes.</p>
+    <pre><code>flipbook.on('flipEnd', ({ page }) => {
+  console.log(`Landed on page ${page}`);
+});</code></pre>
+
+    <h4>flipCancel</h4>
+    <p>Fired when a flip animation is cancelled.</p>
+    <pre><code>flipbook.on('flipCancel', () => {
+  console.log('Flip was cancelled');
+});</code></pre>
+
+    <h2>Zoom Events</h2>
+
+    <h4>zoomChange</h4>
+    <p>Fired when zoom level changes.</p>
+    <pre><code>flipbook.on('zoomChange', ({ zoom, previousZoom }) => {
+  console.log(`Zoom: ${zoom * 100}%`);
+});</code></pre>
+
+    <h4>zoomStart</h4>
+    <p>Fired when zooming starts (pinch/wheel).</p>
+    <pre><code>flipbook.on('zoomStart', ({ zoom }) => {
+  console.log('Zooming started');
+});</code></pre>
+
+    <h4>zoomEnd</h4>
+    <p>Fired when zooming ends.</p>
+    <pre><code>flipbook.on('zoomEnd', ({ zoom }) => {
+  console.log('Zooming ended');
+});</code></pre>
+
+    <h4>panStart</h4>
+    <p>Fired when panning starts.</p>
+    <pre><code>flipbook.on('panStart', ({ x, y }) => {
+  console.log('Panning started');
+});</code></pre>
+
+    <h4>panMove</h4>
+    <p>Fired during panning.</p>
+    <pre><code>flipbook.on('panMove', ({ x, y }) => {
+  console.log(`Pan position: ${x}, ${y}`);
+});</code></pre>
+
+    <h4>panEnd</h4>
+    <p>Fired when panning ends.</p>
+    <pre><code>flipbook.on('panEnd', ({ x, y }) => {
+  console.log('Panning ended');
+});</code></pre>
+
+    <h2>UI Events</h2>
+
+    <h4>toolbarToggle</h4>
+    <p>Fired when toolbar visibility changes.</p>
+    <pre><code>flipbook.on('toolbarToggle', ({ isVisible }) => {
+  console.log(`Toolbar ${isVisible ? 'shown' : 'hidden'}`);
+});</code></pre>
+
+    <h4>thumbnailsToggle</h4>
+    <p>Fired when thumbnails panel toggles.</p>
+    <pre><code>flipbook.on('thumbnailsToggle', ({ isOpen }) => {
+  console.log(`Thumbnails ${isOpen ? 'opened' : 'closed'}`);
+});</code></pre>
+
+    <h4>tocToggle</h4>
+    <p>Fired when TOC panel toggles.</p>
+    <pre><code>flipbook.on('tocToggle', ({ isOpen }) => {
+  console.log(`TOC ${isOpen ? 'opened' : 'closed'}`);
+});</code></pre>
+
+    <h4>searchToggle</h4>
+    <p>Fired when search panel toggles.</p>
+    <pre><code>flipbook.on('searchToggle', ({ isOpen }) => {
+  console.log(`Search ${isOpen ? 'opened' : 'closed'}`);
+});</code></pre>
+
+    <h4>fullscreenChange</h4>
+    <p>Fired when fullscreen state changes.</p>
+    <pre><code>flipbook.on('fullscreenChange', ({ isFullscreen }) => {
+  console.log(`Fullscreen: ${isFullscreen}`);
+});</code></pre>
+
+    <h2>Feature Events</h2>
+
+    <h4>autoplayStart</h4>
+    <p>Fired when autoplay starts.</p>
+    <pre><code>flipbook.on('autoplayStart', () => {
+  console.log('Autoplay started');
+});</code></pre>
+
+    <h4>autoplayStop</h4>
+    <p>Fired when autoplay stops.</p>
+    <pre><code>flipbook.on('autoplayStop', () => {
+  console.log('Autoplay stopped');
+});</code></pre>
+
+    <h4>lightboxOpen</h4>
+    <p>Fired when lightbox opens.</p>
+    <pre><code>flipbook.on('lightboxOpen', () => {
+  console.log('Lightbox opened');
+});</code></pre>
+
+    <h4>lightboxClose</h4>
+    <p>Fired when lightbox closes.</p>
+    <pre><code>flipbook.on('lightboxClose', () => {
+  console.log('Lightbox closed');
+});</code></pre>
+
+    <h4>deepLinkChange</h4>
+    <p>Fired when URL hash changes.</p>
+    <pre><code>flipbook.on('deepLinkChange', ({ page, hash }) => {
+  console.log(`Deep link: ${hash}`);
+});</code></pre>
+
+    <h2>Source Events</h2>
+
+    <h4>sourceLoadStart</h4>
+    <p>Fired when source loading begins.</p>
+    <pre><code>flipbook.on('sourceLoadStart', () => {
+  console.log('Loading source...');
+});</code></pre>
+
+    <h4>sourceLoadProgress</h4>
+    <p>Fired during source loading.</p>
+    <pre><code>flipbook.on('sourceLoadProgress', ({ progress }) => {
+  console.log(`Loading: ${progress}%`);
+});</code></pre>
+
+    <h4>sourceLoadComplete</h4>
+    <p>Fired when source loading completes.</p>
+    <pre><code>flipbook.on('sourceLoadComplete', ({ pageCount, type }) => {
+  console.log(`Loaded ${pageCount} pages from ${type}`);
+});</code></pre>
+
+    <h4>sourceLoadError</h4>
+    <p>Fired when source loading fails.</p>
+    <pre><code>flipbook.on('sourceLoadError', (error) => {
+  console.error('Failed to load source:', error);
+});</code></pre>
+
+    <h2>Renderer Events</h2>
+
+    <h4>rendererChange</h4>
+    <p>Fired when renderer changes.</p>
+    <pre><code>flipbook.on('rendererChange', ({ renderer }) => {
+  console.log(`Switched to ${renderer} renderer`);
+});</code></pre>
+
+    <h4>resize</h4>
+    <p>Fired when container is resized.</p>
+    <pre><code>flipbook.on('resize', ({ width, height }) => {
+  console.log(`Resized to ${width}x${height}`);
+});</code></pre>
+
+    <h4>modeChange</h4>
+    <p>Fired when display mode changes (single/double).</p>
+    <pre><code>flipbook.on('modeChange', ({ mode }) => {
+  console.log(`Display mode: ${mode}`);
+});</code></pre>
+  </div>
+
+  <div class="doc-footer">
+    <p><a href="./docs-usage.html">&larr; Previous: Usage Guide</a> | <a href="./docs-troubleshooting.html">Next: Troubleshooting &rarr;</a></p>
+  </div>
+</body>
+</html>

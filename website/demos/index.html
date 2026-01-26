@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium FlipBook - Demo Gallery</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f1a;
+      color: #fff;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #93c5fd;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .header h1 {
+      font-size: 48px;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      color: rgba(255,255,255,0.7);
+      font-size: 18px;
+    }
+
+    .category {
+      margin-bottom: 60px;
+    }
+
+    .category h2 {
+      font-size: 24px;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      color: #a5b4fc;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 24px;
+    }
+
+    .demo-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .demo-card:hover {
+      border-color: #2563eb;
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+    }
+
+    .demo-card a {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .demo-preview {
+      height: 180px;
+      background: linear-gradient(135deg, #1e1e2e 0%, #2d2d3f 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .demo-content {
+      padding: 20px;
+    }
+
+    .demo-content h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .demo-content p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.5;
+    }
+
+    .demo-tags {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 4px 8px;
+      background: rgba(37, 99, 235, 0.2);
+      color: #93c5fd;
+      border-radius: 4px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 40px;
+      margin-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
+    }
+
+    .footer a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    /* Site Header */
+    .site-header { background: #0a0a12; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+    .site-header .logo { color: #fff; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .site-header .logo span { color: #3b82f6; }
+    .site-header nav { display: flex; gap: 20px; align-items: center; }
+    .site-header nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .site-header nav a:hover { color: #fff; }
+    .site-header nav a.cta { background: #2563eb; padding: 6px 12px; border-radius: 6px; color: #fff; }
+    /* Full Footer */
+    .full-footer {
+      padding: 60px 0;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      background: #0a0a12;
+    }
+    .full-footer .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+    }
+    @media (max-width: 900px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+    .footer-brand h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .footer-brand p {
+      color: #94a3b8;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .footer-social {
+      display: flex;
+      gap: 12px;
+    }
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      background: #1e1e2e;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: background 0.2s;
+      color: #fff;
+    }
+    .footer-social a:hover {
+      background: #2563eb;
+    }
+    .footer-links h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .footer-links ul {
+      list-style: none;
+    }
+    .footer-links li {
+      margin-bottom: 12px;
+    }
+    .footer-links a {
+      color: #94a3b8;
+      font-size: 14px;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      color: #fff;
+    }
+    .footer-bottom {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+    .footer-bottom a {
+      color: #3b82f6;
+      text-decoration: none;
+    }
+    .footer-bottom a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="../index.html" class="logo">Premium <span>FlipBook</span></a>
+    <nav>
+      <a href="../index.html#features">Features</a>
+      <a href="../index.html#renderers">Renderers</a>
+      <a href="./index.html">Demos</a>
+      <a href="./docs-api.html">API</a>
+      <a href="./docs-usage.html">Guide</a>
+      <a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank">GitHub</a>
+      <a href="../index.html#download" class="cta">Download</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <header class="header">
+      <h1>Premium FlipBook Demos</h1>
+      <p>Explore all features with interactive examples and code snippets</p>
+    </header>
+
+    <!-- Basic Examples -->
+    <section class="category">
+      <h2>Basic Examples</h2>
+      <div class="demo-grid">
+        <div class="demo-card">
+          <a href="./basic-pdf.html">
+            <div class="demo-preview">📄</div>
+            <div class="demo-content">
+              <h3>PDF Source</h3>
+              <p>Load and display a PDF file with automatic page rendering.</p>
+              <div class="demo-tags">
+                <span class="tag">PDF.js</span>
+                <span class="tag">Auto-detect</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./basic-images.html">
+            <div class="demo-preview">🖼️</div>
+            <div class="demo-content">
+              <h3>Image Array</h3>
+              <p>Display a flipbook from an array of images. No dependencies required.</p>
+              <div class="demo-tags">
+                <span class="tag">No Dependencies</span>
+                <span class="tag">Simple</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./fullinteractive.html">
+            <div class="demo-preview">🎮</div>
+            <div class="demo-content">
+              <h3>Full Interactive Demo</h3>
+              <p>Complete demo with all controls: renderers, transitions, page modes.</p>
+              <div class="demo-tags">
+                <span class="tag">All Features</span>
+                <span class="tag">Interactive</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Renderers -->
+    <section class="category">
+      <h2>Renderers</h2>
+      <div class="demo-grid">
+        <div class="demo-card">
+          <a href="./renderer-webgl.html">
+            <div class="demo-preview">🎨</div>
+            <div class="demo-content">
+              <h3>WebGL 3D Renderer</h3>
+              <p>High-performance 3D rendering with Three.js. Realistic page flipping with lighting.</p>
+              <div class="demo-tags">
+                <span class="tag">Three.js</span>
+                <span class="tag">3D</span>
+                <span class="tag">GPU</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./renderer-css.html">
+            <div class="demo-preview">✨</div>
+            <div class="demo-content">
+              <h3>CSS 3D Renderer</h3>
+              <p>CSS transform-based rendering. Good balance of performance and compatibility.</p>
+              <div class="demo-tags">
+                <span class="tag">CSS3</span>
+                <span class="tag">No WebGL</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./renderer-swipe.html">
+            <div class="demo-preview">👆</div>
+            <div class="demo-content">
+              <h3>Swipe Renderer</h3>
+              <p>Touch-optimized horizontal swipe navigation. Perfect for mobile devices.</p>
+              <div class="demo-tags">
+                <span class="tag">Mobile</span>
+                <span class="tag">Touch</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Transitions -->
+    <section class="category">
+      <h2>Page Transitions</h2>
+      <div class="demo-grid">
+        <div class="demo-card">
+          <a href="./transitions.html">
+            <div class="demo-preview">🔄</div>
+            <div class="demo-content">
+              <h3>Transition Effects</h3>
+              <p>Compare different page transition effects: fade, slide, flip, and none.</p>
+              <div class="demo-tags">
+                <span class="tag">Fade</span>
+                <span class="tag">Slide</span>
+                <span class="tag">Flip</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="category">
+      <h2>Features</h2>
+      <div class="demo-grid">
+        <div class="demo-card">
+          <a href="./lightbox.html">
+            <div class="demo-preview">💡</div>
+            <div class="demo-content">
+              <h3>Lightbox Mode</h3>
+              <p>Open flipbook in a modal overlay. Trigger from buttons or links.</p>
+              <div class="demo-tags">
+                <span class="tag">Modal</span>
+                <span class="tag">Overlay</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./thumbnails.html">
+            <div class="demo-preview">📑</div>
+            <div class="demo-content">
+              <h3>Thumbnails Panel</h3>
+              <p>Navigate using page thumbnails. Configurable position and lazy loading.</p>
+              <div class="demo-tags">
+                <span class="tag">Navigation</span>
+                <span class="tag">Lazy Load</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./zoom.html">
+            <div class="demo-preview">🔍</div>
+            <div class="demo-content">
+              <h3>Zoom & Pan</h3>
+              <p>Zoom controls with mouse wheel, pinch-to-zoom, and double-tap support.</p>
+              <div class="demo-tags">
+                <span class="tag">Pinch</span>
+                <span class="tag">Wheel</span>
+                <span class="tag">Pan</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./keyboard.html">
+            <div class="demo-preview">⌨️</div>
+            <div class="demo-content">
+              <h3>Keyboard Navigation</h3>
+              <p>Full keyboard support with arrow keys, Page Up/Down, Home/End.</p>
+              <div class="demo-tags">
+                <span class="tag">Accessibility</span>
+                <span class="tag">Shortcuts</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./autoplay.html">
+            <div class="demo-preview">▶️</div>
+            <div class="demo-content">
+              <h3>Autoplay</h3>
+              <p>Automatic page flipping with configurable interval and pause on hover.</p>
+              <div class="demo-tags">
+                <span class="tag">Auto</span>
+                <span class="tag">Loop</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./api-control.html">
+            <div class="demo-preview">🎛️</div>
+            <div class="demo-content">
+              <h3>API Control</h3>
+              <p>Control the flipbook programmatically via JavaScript API.</p>
+              <div class="demo-tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">API</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./events.html">
+            <div class="demo-preview">📡</div>
+            <div class="demo-content">
+              <h3>Events</h3>
+              <p>Listen to flipbook events: page changes, flip animations, zoom, and more.</p>
+              <div class="demo-tags">
+                <span class="tag">Callbacks</span>
+                <span class="tag">Event Emitter</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Advanced -->
+    <section class="category">
+      <h2>Advanced</h2>
+      <div class="demo-grid">
+        <div class="demo-card">
+          <a href="./optimized.html">
+            <div class="demo-preview">⚡</div>
+            <div class="demo-content">
+              <h3>Optimized Source</h3>
+              <p>Pre-rendered images with JSON config for maximum performance.</p>
+              <div class="demo-tags">
+                <span class="tag">Performance</span>
+                <span class="tag">JSON</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./embed.html">
+            <div class="demo-preview">📦</div>
+            <div class="demo-content">
+              <h3>Embed / iframe</h3>
+              <p>Embed the flipbook in your website or third-party pages.</p>
+              <div class="demo-tags">
+                <span class="tag">iframe</span>
+                <span class="tag">Responsive</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./rtl.html">
+            <div class="demo-preview">🔀</div>
+            <div class="demo-content">
+              <h3>RTL Support</h3>
+              <p>Right-to-left reading direction for Arabic, Hebrew, and similar languages.</p>
+              <div class="demo-tags">
+                <span class="tag">RTL</span>
+                <span class="tag">i18n</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Documentation -->
+    <section class="category">
+      <h2>Documentation</h2>
+      <div class="demo-grid">
+        <div class="demo-card">
+          <a href="./docs-api.html">
+            <div class="demo-preview">📖</div>
+            <div class="demo-content">
+              <h3>API Reference</h3>
+              <p>Complete API documentation with all methods, parameters, and return types.</p>
+              <div class="demo-tags">
+                <span class="tag">Methods</span>
+                <span class="tag">Reference</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./docs-options.html">
+            <div class="demo-preview">⚙️</div>
+            <div class="demo-content">
+              <h3>Options Reference</h3>
+              <p>All configuration options for customizing your flipbook instance.</p>
+              <div class="demo-tags">
+                <span class="tag">Config</span>
+                <span class="tag">Settings</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./docs-usage.html">
+            <div class="demo-preview">🚀</div>
+            <div class="demo-content">
+              <h3>Usage Guide</h3>
+              <p>Step-by-step guide for installation, setup, and common use cases.</p>
+              <div class="demo-tags">
+                <span class="tag">Tutorial</span>
+                <span class="tag">Getting Started</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./docs-events.html">
+            <div class="demo-preview">📡</div>
+            <div class="demo-content">
+              <h3>Events Reference</h3>
+              <p>Complete list of events emitted by the flipbook instance.</p>
+              <div class="demo-tags">
+                <span class="tag">Events</span>
+                <span class="tag">Callbacks</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="demo-card">
+          <a href="./docs-troubleshooting.html">
+            <div class="demo-preview">🔧</div>
+            <div class="demo-content">
+              <h3>Troubleshooting</h3>
+              <p>Solutions to common issues and error code reference.</p>
+              <div class="demo-tags">
+                <span class="tag">Help</span>
+                <span class="tag">Errors</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>
+        <a href="./docs-usage.html">Documentation</a> ·
+        <a href="./docs-api.html">API Reference</a> ·
+        <a href="./docs-options.html">Options</a> ·
+        <a href="./docs-events.html">Events</a> ·
+        <a href="./docs-troubleshooting.html">Troubleshooting</a>
+      </p>
+    </footer>
+  </div>
+  <!-- Full Footer -->
+  <footer class="full-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Premium FlipBook</h3>
+          <p>Professional PDF & Image viewer with realistic 3D page flip animations. Pure JavaScript, no dependencies.</p>
+          <div class="footer-social">
+            <a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank" title="GitHub">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="../index.html#features">Features</a></li>
+            <li><a href="../index.html#renderers">Renderers</a></li>
+            <li><a href="../index.html#demo">Demo</a></li>
+            <li><a href="../index.html#download">Download</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="./docs-usage.html">Getting Started</a></li>
+            <li><a href="./docs-api.html">API Reference</a></li>
+            <li><a href="./docs-options.html">Options</a></li>
+            <li><a href="./docs-events.html">Events</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="./index.html">Demo Gallery</a></li>
+            <li><a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer" target="_blank">GitHub</a></li>
+            <li><a href="https://github.com/colorvivo/premium-flipbook-pdf-viewer/issues" target="_blank">Report Issue</a></li>
+            <li><a href="./docs-troubleshooting.html">Troubleshooting</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Premium FlipBook by <a href="https://colorvivo.com/" target="_blank">Color Vivo Internet</a>. Released under MIT License.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

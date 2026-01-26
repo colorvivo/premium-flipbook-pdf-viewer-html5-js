@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium FlipBook - Lightbox Demo</title>
+  <link rel="stylesheet" href="../dist/premium-flipbook.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .content {
+      text-align: center;
+      max-width: 600px;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .subtitle {
+      font-size: 18px;
+      opacity: 0.9;
+      margin-bottom: 40px;
+    }
+
+    .triggers {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .trigger-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 40px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .trigger-btn:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .trigger-btn svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 12px;
+    }
+
+    .trigger-btn span {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .trigger-btn small {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+
+    .info {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    /* Hidden flipbook container for lightbox mode */
+    #flipbook-container {
+      display: none;
+    }
+      /* Site Header */
+    .site-header { background: #0a0a12; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .site-header .logo { color: #fff; text-decoration: none; font-weight: 600; font-size: 16px; }
+    .site-header .logo span { color: #3b82f6; }
+    .site-header nav { display: flex; gap: 20px; align-items: center; }
+    .site-header nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; }
+    .site-header nav a:hover { color: #fff; }
+    .site-footer { background: #0a0a12; border-top: 1px solid rgba(255,255,255,0.1); padding: 20px; text-align: center; margin-top: 40px; }
+    .site-footer p { color: rgba(255,255,255,0.5); font-size: 13px; }
+    .site-footer a { color: #3b82f6; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h1>Lightbox Mode</h1>
+    <p class="subtitle">Click a trigger to open the flipbook in a modal overlay</p>
+
+    <div class="triggers">
+      <a href="#" class="trigger-btn lightbox-trigger" data-page="1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <span>Open Magazine</span>
+        <small>Start from cover</small>
+      </a>
+
+      <a href="#" class="trigger-btn lightbox-trigger" data-page="4">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+        <span>View Gallery</span>
+        <small>Jump to page 4</small>
+      </a>
+
+      <a href="#" class="trigger-btn" onclick="flipbook.openLightbox(8); return false;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span>Last Page</span>
+        <small>Via JavaScript</small>
+      </a>
+    </div>
+
+    <p class="info">Press Escape or click outside to close the lightbox</p>
+  </div>
+
+  <!-- Hidden container for flipbook -->
+  <div id="flipbook-container"></div>
+
+  <!-- Premium FlipBook -->
+  <script src="../dist/premium-flipbook.min.js"></script>
+  <script>
+
+    // Sample images
+    const images = [
+      'https://picsum.photos/800/1131?random=20',
+      'https://picsum.photos/800/1131?random=21',
+      'https://picsum.photos/800/1131?random=22',
+      'https://picsum.photos/800/1131?random=23',
+      'https://picsum.photos/800/1131?random=24',
+      'https://picsum.photos/800/1131?random=25',
+      'https://picsum.photos/800/1131?random=26',
+      'https://picsum.photos/800/1131?random=27'
+    ];
+
+    // Initialize flipbook with lightbox mode
+    const flipbook = new PremiumFlipBook({
+      container: '#flipbook-container',
+
+      // Image source
+      images: images,
+
+      // Renderer
+      renderMode: 'css',
+
+      // UI
+      ui: {
+        toolbar: {
+          enabled: true
+        },
+        thumbnails: {
+          enabled: true
+        }
+      },
+
+      // Lightbox feature
+      features: {
+        lightbox: true,
+        lightboxTrigger: '.lightbox-trigger',
+        fullscreen: true,
+        deepLinking: true
+      },
+
+      // Callbacks
+      onReady: (fb) => {
+        console.log('Lightbox FlipBook ready!');
+      }
+    });
+
+    // Export for console access
+    window.flipbook = flipbook;
+  </script>
+</body>
+</html>
